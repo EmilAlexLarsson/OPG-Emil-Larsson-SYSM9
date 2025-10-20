@@ -65,5 +65,14 @@ namespace CookMaster.Manager
             }
             return false;
         }
+        public void Register(string username, string password, string country)
+        {
+            Users.Add(new User
+            {
+                Username = username,
+                Password = password,
+                Country = country
+            });
+        }
     }
 }

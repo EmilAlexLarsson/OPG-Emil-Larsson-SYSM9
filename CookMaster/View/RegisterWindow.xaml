@@ -19,5 +19,6 @@
             <Label Content="Country"/>
             <ComboBox Width="200" ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedCountry}"/> 
         </StackPanel>
+        <Button Content="Register" Margin="5" Command="{Binding RegisterCommand}" HorizontalAlignment="Center"/>
     </StackPanel>
 </Window>
