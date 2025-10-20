@@ -15,14 +15,14 @@
         <StackPanel Grid.Row="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label Content="Username: "/>
-                <TextBox Width="100"/>
+                <TextBox Width="100" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
                 <Label Content="Password: "/>
-                <TextBox Width="100"/>
+                <TextBox Width="100" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                <Button Content="Sign in" Margin="5"/>
+                <Button Content="Sign in" Margin="5" Command="{Binding LogInCommand}"/>
                 <Button Content="Register" Margin="5"/>
             </StackPanel>
             
