@@ -74,5 +74,16 @@ namespace CookMaster.Manager
                 Country = country
             });
         }
+        public User FindUser(string name)
+        {
+            foreach (User user in Users)
+            {
+                if (user.Username == name)
+                {
+                    return user;
+                }
+            }
+            return null;
+        }
     }
 }

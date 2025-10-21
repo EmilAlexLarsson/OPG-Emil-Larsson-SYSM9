@@ -39,7 +39,7 @@ namespace CookMaster.ViewModel
             }
         }
         public RelayCommand LogInCommand => new RelayCommand(execute => LogIn());
-        public RelayCommand RegisterCommand => new RelayCommand(execute => Register());
+        public RelayCommand RegisterCommand => new RelayCommand(execute => OpenRegister());
 
         public void LogIn()
         {
@@ -54,7 +54,7 @@ namespace CookMaster.ViewModel
                 MessageBox.Show("Wrong Username or password");
             }
         }
-        public void Register()
+        public void OpenRegister()
         {
             RegisterWindow registerWindow = new RegisterWindow();
             registerWindow.Show();

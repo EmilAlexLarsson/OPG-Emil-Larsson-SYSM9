@@ -1,15 +1,18 @@
 ﻿using CookMaster.Manager;
+using CookMaster.Model;
 using CookMaster.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CookMaster.ViewModel
 {
     public class RegisterWindowViewModel : ViewModelBase
     {
+        //Application.Current.Windows[1].Close();
         public UserManager UserManager { get; }
         public RegisterWindowViewModel(UserManager userManager)
         {
@@ -52,6 +55,35 @@ namespace CookMaster.ViewModel
                 _selectedCountry = value;
                 OnPropertyChanged();
             }
+        }
+        public RelayCommand CreateUserCommand => new RelayCommand(execute => CreateUser());
+        public void CreateUser()
+        {
+            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password) || string.IsNullOrWhiteSpace(SelectedCountry))
+            {
+                MessageBox.Show("Username or password can't be empty");
+                return;
+            }
+            if (UserManager.FindUser(Username) != null)
+            {
+                MessageBox.Show("Username already exists");
+                return;
+            }
+            else
+            {
+                UserManager.Register(Username, Password, SelectedCountry);
+
+                MessageBox.Show("New user created!");
+
+
+                Application.Current.Windows[1].Close();
+
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                //funkar inte
+            }
+
+
         }
     }
 }
