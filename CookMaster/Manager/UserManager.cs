@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CookMaster.Manager
 {
@@ -55,6 +56,7 @@ namespace CookMaster.Manager
 
         public bool LogIn(string username, string password)
         {
+            
             foreach (User user in Users)
             {
                 if (user.Username == username && user.Password == password)

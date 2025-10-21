@@ -43,6 +43,12 @@ namespace CookMaster.ViewModel
 
         public void LogIn()
         {
+            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
+            {
+                MessageBox.Show("Username or password can't be empty");
+                return;
+            }
+
             RecipeListWindow recipeListWindow = new RecipeListWindow();
             if (UserManager.LogIn(Username, Password))
             {
