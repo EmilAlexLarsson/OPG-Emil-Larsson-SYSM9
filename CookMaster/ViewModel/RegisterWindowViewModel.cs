@@ -66,7 +66,7 @@ namespace CookMaster.ViewModel
         {
             if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password) || string.IsNullOrWhiteSpace(SelectedCountry))
             {
-                MessageBox.Show("Username or password can't be empty");
+                MessageBox.Show("Username, password or country can't be empty");
                 return;
             }
             if (UserManager.FindUser(Username) != null)
