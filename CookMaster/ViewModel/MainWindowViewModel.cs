@@ -20,7 +20,6 @@ namespace CookMaster.ViewModel
 
             //for (int i = 0; i < Application.Current.Windows.Count; i++)
             //{
-            //    var window = Application.Current.Windows[i];
             //    MessageBox.Show($"{i}");
             //}
         }

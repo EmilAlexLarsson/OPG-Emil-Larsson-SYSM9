@@ -12,14 +12,13 @@ namespace CookMaster.ViewModel
 {
     public class RegisterWindowViewModel : ViewModelBase
     {
-        //Application.Current.Windows[1].Close();
+        
         public UserManager UserManager { get; }
         public RegisterWindowViewModel(UserManager userManager)
         {
-            UserManager = userManager;
+            //UserManager = userManager;
             //for (int i = 0; i < Application.Current.Windows.Count; i++)
             //{
-            //    var window = Application.Current.Windows[i];
             //    MessageBox.Show($"{i}");
             //}
         }

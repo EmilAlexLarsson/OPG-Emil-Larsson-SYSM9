@@ -20,8 +20,8 @@ namespace CookMaster.Manager
                 return _users;
             }
         }
-        private User _loggedIn;
-        public User LoggedIn
+        private User? _loggedIn;
+        public User? LoggedIn
         {
             get
             {
@@ -42,7 +42,7 @@ namespace CookMaster.Manager
 
         private void DefaultUsers()
         {
-            Users.Add(new User
+            Users.Add(new User //AdminUser
             {
                 Username = "admin",
                 Password = "password"
