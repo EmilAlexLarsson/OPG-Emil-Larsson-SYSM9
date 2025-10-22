@@ -16,7 +16,7 @@ namespace CookMaster.ViewModel
         public UserManager UserManager { get; }
         public RegisterWindowViewModel(UserManager userManager)
         {
-            //UserManager = userManager;
+            UserManager = userManager;
             //for (int i = 0; i < Application.Current.Windows.Count; i++)
             //{
             //    MessageBox.Show($"{i}");

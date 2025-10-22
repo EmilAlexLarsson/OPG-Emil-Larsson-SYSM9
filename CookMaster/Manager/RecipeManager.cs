@@ -30,7 +30,7 @@ namespace CookMaster.Manager
                 Instructions = "Stek köttbullarna och koka makaronerna.",
                 Category = "Huvudrätt",
                 Date = DateTime.Now,
-                CreatedBy = UserManager.LoggedIn
+                //CreatedBy = UserManager.LoggedIn
             });
 
         }
