@@ -17,6 +17,11 @@ namespace CookMaster.ViewModel
         public RegisterWindowViewModel(UserManager userManager)
         {
             UserManager = userManager;
+            //for (int i = 0; i < Application.Current.Windows.Count; i++)
+            //{
+            //    var window = Application.Current.Windows[i];
+            //    MessageBox.Show($"{i}");
+            //}
         }
         private string _username;
         public string Username
@@ -76,11 +81,20 @@ namespace CookMaster.ViewModel
                 MessageBox.Show("New user created!");
 
 
-                Application.Current.Windows[1].Close();
+                //MainWindow mainWindow = new MainWindow();
+                //var result = mainWindow.ShowDialog();
 
+                //if(result != true)
+                //{
+                //    Application.Current.Shutdown();
+                //}
+                
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
-                //funkar inte
+                Application.Current.Windows[0].Close();
+                //Stänger första fönstert i listan (index 0), alltså registerwindow, då det är det ända öppna fönstert
+
+
             }
 
 
