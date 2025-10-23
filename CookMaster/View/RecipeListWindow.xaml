@@ -15,16 +15,25 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
-        <Label Content="Recipes" FontSize="50" FontStyle="Italic"/>
+        <StackPanel>
+            <Button Content="info" HorizontalAlignment="Left"/>
+            <Label Content="Recipes" FontSize="50" FontStyle="Italic"/>
+        </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="1">
             <!--binda textblock to username-->
             <!--<TextBlock Text="{Binding Source={StaticResource UserManager}, Path=LoggedIn.Username}"/>-->
             <TextBlock Text="{Binding UserManager.LoggedIn.Username}"/>
-            <Button Content="User" />
-            <Button Content="Log out" />
+            <Button Content="User" Margin="5" Width="100"/>
+            <Button Content="Log out" Margin="5" Width="100"/>
         </StackPanel>
         <StackPanel Grid.Row="1">
             <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Recipes}" SelectedItem="{Binding SelectedRecipe, Mode=TwoWay}" DisplayMemberPath="Title"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Button Content="Add Recipe" Margin="5" Width="100" Command="{Binding OpenAddRecipeCommand}"/>
+            <Button Content="Details" Margin="5" Width="100"/>
+            <Button Content="Remove" Margin="5" Width="100"/>
+
         </StackPanel>
         
     </Grid>

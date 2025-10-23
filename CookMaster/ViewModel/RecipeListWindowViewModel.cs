@@ -1,6 +1,7 @@
 ﻿using CookMaster.Manager;
 using CookMaster.Model;
 using CookMaster.MVVM;
+using CookMaster.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -47,10 +48,12 @@ namespace CookMaster.ViewModel
             }
         }
         //public RelayCommand LogInCommand => new RelayCommand(execute => );
+        public RelayCommand OpenAddRecipeCommand => new RelayCommand(execute => AddRecipe());
 
         public void AddRecipe()
         {
-            //öppnar addrecipe window
+            AddRecipeWindow addRecipeWindow = new AddRecipeWindow();
+            addRecipeWindow.Show();
         }
 
         public void OpenUser()
