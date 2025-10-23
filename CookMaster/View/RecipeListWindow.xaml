@@ -27,7 +27,7 @@
             <Button Content="Log out" Margin="5" Width="100"/>
         </StackPanel>
         <StackPanel Grid.Row="1">
-            <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Recipes}" SelectedItem="{Binding SelectedRecipe, Mode=TwoWay}" DisplayMemberPath="Title"/>
+            <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding UserManager.LoggedIn.Recipes}" SelectedItem="{Binding SelectedRecipe, Mode=TwoWay}" DisplayMemberPath="Title"/>
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1">
             <Button Content="Add Recipe" Margin="5" Width="100" Command="{Binding OpenAddRecipeCommand}"/>

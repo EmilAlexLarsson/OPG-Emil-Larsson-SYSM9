@@ -14,23 +14,23 @@ namespace CookMaster.ViewModel
 {
     public class RecipeListWindowViewModel : ViewModelBase
     {
-        
-        public RecipeManager recipeManager {  get; }
+
+        public RecipeManager RecipeManager { get; }
         public UserManager UserManager { get; }
 
 
-        public RecipeListWindowViewModel(UserManager userManager)
+        public RecipeListWindowViewModel(UserManager userManager, RecipeManager recipeManager)
         {
             UserManager = userManager;
-
-            recipeManager = new RecipeManager(userManager);
+            RecipeManager = recipeManager;
+            //recipeManager = new RecipeManager(userManager);
             //MessageBox.Show(UserManager.LoggedIn);
-            
+
         }
         private ObservableCollection<Recipe> _recipes;
         public ObservableCollection<Recipe> Recipes
         {
-            get { return recipeManager.Recipes; }
+            get { return UserManager.LoggedIn.Recipes; }
             set
             {
                 _recipes = value;

@@ -27,37 +27,44 @@ namespace CookMaster.Manager
         {
             UserManager = userManager;
             _recipes = new ObservableCollection<Recipe>();
+
             
-            DefaultRecipes();
         }
 
         public void DefaultRecipes()
         {
             
-            Recipes.Add(new Recipe
-            {
-                Title = "Köttbullar med makaroner",
-                Ingredients = "Köttbullar och makaroner",
-                Instructions = "Stek köttbullarna och koka makaronerna.",
-                Category = "Huvudrätt",
-                Date = DateTime.Now,
-                CreatedBy = UserManager.LoggedIn
-            }); 
-            UserManager.LoggedIn.Recipes = Recipes;
-           
-
+            //UserManager.LoggedIn.Recipes.Add(new Recipe
+            //{
+            //    Title = "Pasta med tomatsås",
+            //    Ingredients = "Pasta, tomatsås, olivolja, vitlök, salt, peppar",
+            //    Instructions = "Koka pastan enligt anvisningarna på förpackningen. Värm tomatsåsen i en kastrull med olivolja och vitlök. Blanda pastan med tomatsåsen och krydda med salt och peppar.",
+            //    Category = "Huvudrätt",
+            //    Date = DateTime.Now,
+            //    CreatedBy = UserManager.LoggedIn
+            //});
+            //Recipes.Add(new Recipe
+            //{
+            //    Title = "Köttbullar med makaroner",
+            //    Ingredients = "Köttbullar och makaroner",
+            //    Instructions = "Stek köttbullarna och koka makaronerna.",
+            //    Category = "Huvudrätt",
+            //    Date = DateTime.Now,
+            //    CreatedBy = UserManager.LoggedIn
+            //});
+            //UserManager.LoggedIn.Recipes = Recipes;
         }
-        public void testUser()
-        {
-            if (UserManager.LoggedIn != null)
-            {
-                Console.WriteLine("Logged in user: " + UserManager.LoggedIn.Username);
-            }
-            else
-            {
-                Console.WriteLine("No user is currently logged in.");
-            }
-        }
+        //public void testUser()
+        //{
+        //    if (UserManager.LoggedIn != null)
+        //    {
+        //        Console.WriteLine("Logged in user: " + UserManager.LoggedIn.Username);
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("No user is currently logged in.");
+        //    }
+        //}
 
         public void AddRecipe(Recipe recipe)
         {

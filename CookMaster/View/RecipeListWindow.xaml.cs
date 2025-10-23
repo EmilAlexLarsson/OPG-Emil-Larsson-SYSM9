@@ -25,7 +25,8 @@ namespace CookMaster.View
         {
             InitializeComponent();
             UserManager userManager = (UserManager)Application.Current.Resources["UserManager"];
-            RecipeListWindowViewModel recipeListViewModel = new RecipeListWindowViewModel(userManager);
+            RecipeManager recipeManager = (RecipeManager)Application.Current.Resources["RecipeManager"];
+            RecipeListWindowViewModel recipeListViewModel = new RecipeListWindowViewModel(userManager, recipeManager);
             DataContext = recipeListViewModel;
         }
     }

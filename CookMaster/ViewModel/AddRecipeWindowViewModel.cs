@@ -13,7 +13,7 @@ namespace CookMaster.ViewModel
 {
     public class AddRecipeWindowViewModel : ViewModelBase
     {
-        public UserManager UserManager { get; set; }
+        public UserManager UserManager { get; }
         public RecipeManager RecipeManager { get; set; }
         public AddRecipeWindowViewModel(UserManager userManager, RecipeManager recipeManager)
         {
