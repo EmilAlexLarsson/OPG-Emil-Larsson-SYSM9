@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CookMaster.Manager;
+using CookMaster.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,10 @@ namespace CookMaster.View
         public AddRecipeWindow()
         {
             InitializeComponent();
+            UserManager userManager = (UserManager)Application.Current.Resources["UserManager"];
+            RecipeManager recipeManager = (RecipeManager)Application.Current.Resources["RecipeManager"];
+            AddRecipeWindowViewModel addRecipeViewModel = new AddRecipeWindowViewModel(userManager, recipeManager);
+            DataContext = addRecipeViewModel;
         }
     }
 }

@@ -1,13 +1,15 @@
 ﻿using CookMaster.Manager;
+using CookMaster.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CookMaster.ViewModel
 {
-    public class AddRecipeWindowViewModel
+    public class AddRecipeWindowViewModel : ViewModelBase
     {
         public UserManager UserManager { get; set; }
         public RecipeManager RecipeManager { get; set; }
@@ -15,6 +17,75 @@ namespace CookMaster.ViewModel
         {
             UserManager = userManager;
             RecipeManager = recipeManager;
+        }
+        private string _title;
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _ingredients;
+        public string Ingredients
+        {
+            get { return _ingredients; }
+            set
+            {
+                _ingredients = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _instructions;
+        public string Instructions
+        {
+            get { return _instructions; }
+            set
+            {
+                _instructions = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _category;
+        public string Category
+        {
+            get { return _category; }
+            set
+            {
+                _category = value;
+                OnPropertyChanged();
+            }
+        }
+        public DateTime Date { get; set; } = DateTime.Now;
+
+        
+
+
+        public RelayCommand AddRecipeCommand => new RelayCommand(execute => AddRecipe());
+        public void AddRecipe()
+        {
+            if(!string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Ingredients) && !string.IsNullOrWhiteSpace(Instructions) && !string.IsNullOrWhiteSpace(Category) )
+            {
+                UserManager.LoggedIn.Recipes.Add(new Model.Recipe
+                {
+                   Title = Title,
+                   Ingredients = Ingredients, 
+                   Instructions = Instructions,
+                   Category = Category,
+                   Date = DateTime.Now,
+                   CreatedBy = UserManager.LoggedIn
+
+                });
+            }
+            else
+            {
+                MessageBox.Show("Fill in the empty sections");
+                return;
+            }
+
+            Application.Current.Windows[1].Close();
         }
     }
 }
