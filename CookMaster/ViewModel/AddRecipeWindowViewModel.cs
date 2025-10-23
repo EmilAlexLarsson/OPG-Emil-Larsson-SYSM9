@@ -1,4 +1,5 @@
 ﻿using CookMaster.Manager;
+using CookMaster.Model;
 using CookMaster.MVVM;
 using CookMaster.View;
 using System;
@@ -17,6 +18,7 @@ namespace CookMaster.ViewModel
         public AddRecipeWindowViewModel(UserManager userManager, RecipeManager recipeManager)
         {
             UserManager = userManager;
+            
             RecipeManager = recipeManager;
         }
         private string _title;
@@ -69,7 +71,7 @@ namespace CookMaster.ViewModel
         {
             if(!string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Ingredients) && !string.IsNullOrWhiteSpace(Instructions) && !string.IsNullOrWhiteSpace(Category) )
             {
-                UserManager.LoggedIn.Recipes.Add(new Model.Recipe
+                UserManager.LoggedIn.Recipes.Add(new Recipe
                 {
                    Title = Title,
                    Ingredients = Ingredients, 
