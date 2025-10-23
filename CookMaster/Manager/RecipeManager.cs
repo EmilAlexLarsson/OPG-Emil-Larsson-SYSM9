@@ -1,4 +1,5 @@
 ﻿using CookMaster.Model;
+using CookMaster.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,21 +9,31 @@ using System.Threading.Tasks;
 
 namespace CookMaster.Manager
 {
-    public class RecipeManager
+    public class RecipeManager : ViewModelBase
     {
         public UserManager UserManager { get; }
-        public ObservableCollection<Recipe> Recipes { get; }
-
-        public RecipeManager()
+        private ObservableCollection<Recipe> _recipes;
+        public ObservableCollection<Recipe> Recipes
         {
-            Recipes = new ObservableCollection<Recipe>();
+            get { return _recipes; }
+            set
+            {
+                _recipes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public RecipeManager(UserManager userManager)
+        {
+            UserManager = userManager;
+            _recipes = new ObservableCollection<Recipe>();
             
             DefaultRecipes();
         }
 
         public void DefaultRecipes()
         {
-
+            
             Recipes.Add(new Recipe
             {
                 Title = "Köttbullar med makaroner",
@@ -30,9 +41,22 @@ namespace CookMaster.Manager
                 Instructions = "Stek köttbullarna och koka makaronerna.",
                 Category = "Huvudrätt",
                 Date = DateTime.Now,
-                //CreatedBy = UserManager.LoggedIn
-            });
+                CreatedBy = UserManager.LoggedIn
+            }); 
+            UserManager.LoggedIn.Recipes = Recipes;
+           
 
+        }
+        public void testUser()
+        {
+            if (UserManager.LoggedIn != null)
+            {
+                Console.WriteLine("Logged in user: " + UserManager.LoggedIn.Username);
+            }
+            else
+            {
+                Console.WriteLine("No user is currently logged in.");
+            }
         }
 
         public void AddRecipe(Recipe recipe)
@@ -49,6 +73,6 @@ namespace CookMaster.Manager
         {
             
         }
-        //Currentuser.recipe???
+        
     }
 }

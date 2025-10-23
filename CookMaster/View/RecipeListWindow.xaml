@@ -17,9 +17,15 @@
         </Grid.RowDefinitions>
         <Label Content="Recipes" FontSize="50" FontStyle="Italic"/>
         <StackPanel Grid.Row="0" Grid.Column="1">
+            <!--binda textblock to username-->
+            <!--<TextBlock Text="{Binding Source={StaticResource UserManager}, Path=LoggedIn.Username}"/>-->
             <TextBlock Text="{Binding UserManager.LoggedIn.Username}"/>
             <Button Content="User" />
             <Button Content="Log out" />
         </StackPanel>
+        <StackPanel Grid.Row="1">
+            <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Recipes}" SelectedItem="{Binding SelectedRecipe, Mode=TwoWay}" DisplayMemberPath="Title"/>
+        </StackPanel>
+        
     </Grid>
 </Window>

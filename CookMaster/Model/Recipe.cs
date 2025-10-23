@@ -13,6 +13,6 @@ namespace CookMaster.Model
         public string Instructions { get; set; }
         public string Category { get; set; }
         public DateTime Date { get; set; }
-        public User CreatedBy { get; set; }
+        public User? CreatedBy { get; set; }
     }
 }

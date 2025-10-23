@@ -55,9 +55,10 @@ namespace CookMaster.ViewModel
                 return;
             }
 
-            RecipeListWindow recipeListWindow = new RecipeListWindow();
+            
             if (UserManager.LogIn(Username, Password))
             {
+                RecipeListWindow recipeListWindow = new RecipeListWindow();
                 recipeListWindow.Show();
                 Application.Current.Windows[0].Close();
             }
