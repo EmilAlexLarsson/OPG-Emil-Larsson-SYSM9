@@ -1,5 +1,6 @@
 ﻿using CookMaster.Manager;
 using CookMaster.MVVM;
+using CookMaster.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,14 +79,37 @@ namespace CookMaster.ViewModel
                    CreatedBy = UserManager.LoggedIn
 
                 });
+                if (Application.Current.Windows.Count > 1)
+                {
+                    Application.Current.Windows[1].Close();
+                }
+                else
+                {
+                    RecipeListWindow recipeListWindow = new RecipeListWindow();
+                    recipeListWindow.Show();
+                    Application.Current.Windows[0].Close();
+
+
+                }
             }
             else
             {
                 MessageBox.Show("Fill in the empty sections");
                 return;
             }
-
-            Application.Current.Windows[1].Close();
+            //Om RecipeListWindow stängs innan AddRecipeWindow stängs så kraschar det
+            
+            //if( Application.Current.Windows.Count > 1)
+            //{
+            //    Application.Current.Windows[1].Close();
+            //}
+            //else
+            //{
+            //    RecipeListWindow recipeListWindow = new RecipeListWindow();
+            //    recipeListWindow.Show();
+            //    Application.Current.Windows[0].Close();
+                
+            //}
         }
     }
 }

@@ -52,6 +52,7 @@ namespace CookMaster.ViewModel
 
         public void AddRecipe()
         {
+            
             AddRecipeWindow addRecipeWindow = new AddRecipeWindow();
             addRecipeWindow.Show();
         }

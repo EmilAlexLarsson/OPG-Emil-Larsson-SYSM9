@@ -20,7 +20,7 @@
             <Label Content="Recipes" FontSize="50" FontStyle="Italic"/>
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="1">
-            <!--binda textblock to username-->
+            
             <!--<TextBlock Text="{Binding Source={StaticResource UserManager}, Path=LoggedIn.Username}"/>-->
             <TextBlock Text="{Binding UserManager.LoggedIn.Username}"/>
             <Button Content="User" Margin="5" Width="100"/>
