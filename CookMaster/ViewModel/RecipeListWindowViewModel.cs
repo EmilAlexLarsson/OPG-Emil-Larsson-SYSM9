@@ -51,6 +51,7 @@ namespace CookMaster.ViewModel
         
         //public RelayCommand LogInCommand => new RelayCommand(execute => );
         public RelayCommand OpenAddRecipeCommand => new RelayCommand(execute => AddRecipe());
+        public RelayCommand SignOutCommand => new RelayCommand(execute => SignOut());
 
         public void AddRecipe()
         {
@@ -75,7 +76,17 @@ namespace CookMaster.ViewModel
 
         public void SignOut()
         {
-
+            UserManager.LoggedIn = null;
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window != mainWindow)
+                {
+                    window.Close();
+                }
+            }
+            
         }
     }
 }

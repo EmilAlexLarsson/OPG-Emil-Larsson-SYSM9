@@ -24,7 +24,7 @@
             <!--<TextBlock Text="{Binding Source={StaticResource UserManager}, Path=LoggedIn.Username}"/>-->
             <TextBlock Text="{Binding UserManager.LoggedIn.Username}"/>
             <Button Content="User" Margin="5" Width="100"/>
-            <Button Content="Log out" Margin="5" Width="100"/>
+            <Button Content="Log out" Command="{Binding SignOutCommand}" Margin="5" Width="100"/>
         </StackPanel>
         <StackPanel Grid.Row="1">
             <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Recipes}" SelectedItem="{Binding SelectedRecipe, Mode=TwoWay}" DisplayMemberPath="Title"/>
