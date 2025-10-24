@@ -25,7 +25,7 @@ namespace CookMaster.ViewModel
             RecipeManager = recipeManager;
             //recipeManager = new RecipeManager(userManager);
             //MessageBox.Show(UserManager.LoggedIn);
-
+            
         }
         private ObservableCollection<Recipe> _recipes;
         public ObservableCollection<Recipe> Recipes
@@ -47,12 +47,14 @@ namespace CookMaster.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        
         //public RelayCommand LogInCommand => new RelayCommand(execute => );
         public RelayCommand OpenAddRecipeCommand => new RelayCommand(execute => AddRecipe());
 
         public void AddRecipe()
         {
-            
+
             AddRecipeWindow addRecipeWindow = new AddRecipeWindow();
             addRecipeWindow.Show();
         }

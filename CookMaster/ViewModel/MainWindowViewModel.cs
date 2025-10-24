@@ -44,16 +44,16 @@ namespace CookMaster.ViewModel
                 OnPropertyChanged();
             }
         }
-        public RelayCommand LogInCommand => new RelayCommand(execute => LogIn());
+        public RelayCommand LogInCommand => new RelayCommand(execute => LogIn(), canExecute => CanLogIn());
         public RelayCommand RegisterCommand => new RelayCommand(execute => OpenRegister());
 
         public void LogIn()
         {
-            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
-            {
-                MessageBox.Show("Username or password can't be empty");
-                return;
-            }
+            //if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
+            //{
+            //    MessageBox.Show("Username or password can't be empty");
+            //    return;
+            //}
 
             
             if (UserManager.LogIn(Username, Password))
@@ -66,6 +66,10 @@ namespace CookMaster.ViewModel
             {
                 MessageBox.Show("Wrong Username or password");
             }
+        }
+        private bool CanLogIn()
+        {
+            return !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password);
         }
         public void OpenRegister()
         {
