@@ -31,8 +31,8 @@
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1">
             <Button Content="Add Recipe" Margin="5" Width="100" Command="{Binding OpenAddRecipeCommand}"/>
-            <Button Content="Details" Margin="5" Width="100"/>
-            <Button Content="Remove" Margin="5" Width="100"/>
+            <Button Content="Details" Command="{Binding DetailsCommand}" Margin="5" Width="100"/>
+            <Button Content="Remove" Command="{Binding RemoveCommand}" Margin="5" Width="100"/>
 
         </StackPanel>
         

@@ -1,0 +1,51 @@
+﻿<Window x:Class="CookMaster.View.RecipeDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CookMaster.View"
+        mc:Ignorable="d"
+        Title="RecipeDetailWindow" Height="450" Width="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="7*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Recipe Details" FontSize="20" FontStyle="Italic" HorizontalAlignment="Center"/>
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <Label Content="Title:" Margin="5"/>
+                <TextBlock Text="{Binding SelectedRecipe.Title}" Width="300"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <Label Content="Ingredients:" Margin="5"/>
+                <TextBlock Text="{Binding SelectedRecipe.Ingredients}" TextWrapping="Wrap" Width="300"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <Label Content="Instructions:"  Margin="5"/>
+                <TextBlock Text="{Binding SelectedRecipe.Instructions}" TextWrapping="Wrap" Width="300"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <Label Content="Category:" Margin="5"/>
+                <TextBlock Text="{Binding SelectedRecipe.Category}" Width="300"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <Label Content="Date:" Margin="5"/>
+                <TextBlock Text="{Binding SelectedRecipe.Date}" Width="300"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <Label Content="Created by:" Margin="5" />
+                <TextBlock Text="{Binding SelectedRecipe.CreatedBy}" Width="300"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5">
+            <Button Content="Edit Recipe" Command="{Binding EditRecipeCommand}" Margin="5" />
+            <Button Content="Save" Margin="5"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

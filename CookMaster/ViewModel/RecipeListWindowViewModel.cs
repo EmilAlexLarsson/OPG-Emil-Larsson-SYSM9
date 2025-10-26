@@ -46,6 +46,8 @@ namespace CookMaster.ViewModel
         //public RelayCommand LogInCommand => new RelayCommand(execute => );
         public RelayCommand OpenAddRecipeCommand => new RelayCommand(execute => AddRecipe());
         public RelayCommand SignOutCommand => new RelayCommand(execute => SignOut());
+        public RelayCommand RemoveCommand => new RelayCommand(execute => RemoveRecipe());
+        public RelayCommand DetailsCommand => new RelayCommand(execute => Details());
 
         public void AddRecipe()
         {
@@ -61,11 +63,15 @@ namespace CookMaster.ViewModel
 
         public void Details ()
         {
-            //Öppnar details fönster
+            RecipeDetailWindow recipeDetailWindow = new RecipeDetailWindow(RecipeManager);
+            recipeDetailWindow.Show();
         }
         public void RemoveRecipe()
         {
-            
+            if (_selectedRecipe != null)
+            {
+                RecipeManager.RemoveRecipe(_selectedRecipe);
+            }
         }
 
         public void SignOut()

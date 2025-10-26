@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="AddRecipeWindow" Height="450" Width="300">
     <StackPanel HorizontalAlignment="Center">
-        <Label Content="Add new Recipe"/>
+        <Label Content="Add new Recipe" HorizontalAlignment="Center" FontStyle="Italic" FontSize="20"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
             <Label Content="Title" HorizontalAlignment="Left"/>
             <TextBox Width="200" Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
