@@ -71,7 +71,7 @@ namespace CookMaster.ViewModel
         {
             if(!string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Ingredients) && !string.IsNullOrWhiteSpace(Instructions) && !string.IsNullOrWhiteSpace(Category) )
             {
-                UserManager.LoggedIn.Recipes.Add(new Recipe
+                RecipeManager.AddRecipe(new Recipe
                 {
                    Title = Title,
                    Ingredients = Ingredients, 
@@ -87,7 +87,7 @@ namespace CookMaster.ViewModel
                 }
                 else
                 {
-                    RecipeListWindow recipeListWindow = new RecipeListWindow();
+                    RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
                     recipeListWindow.Show();
                     Application.Current.Windows[0].Close();
 

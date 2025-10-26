@@ -13,22 +13,14 @@ namespace CookMaster.Manager
     public class RecipeManager : ViewModelBase
     {
         public UserManager UserManager { get; }
-        //private ObservableCollection<Recipe> _recipes;
-        //public ObservableCollection<Recipe> Recipes
-        //{
-        //    get { return _recipes; }
-        //    set
-        //    {
-        //        _recipes = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
+        
+        public ObservableCollection<Recipe> Recipes { get; private set; }
+
 
         public RecipeManager(UserManager userManager)
         {
             UserManager = userManager;
-            //_recipes = new ObservableCollection<Recipe>();
-
+            Recipes = new ObservableCollection<Recipe>();
 
             DefaultRecipes();
         }
@@ -36,17 +28,17 @@ namespace CookMaster.Manager
         public void DefaultRecipes()
         {
 
-            
-            //Recipes.Add(new Recipe
-            //{
-            //    Title = "Köttbullar med makaroner",
-            //    Ingredients = "Köttbullar och makaroner",
-            //    Instructions = "Stek köttbullarna och koka makaronerna.",
-            //    Category = "Huvudrätt",
-            //    Date = DateTime.Now,
-            //    CreatedBy = UserManager.LoggedIn
-            //});
-            //UserManager.LoggedIn.Recipes = Recipes;
+
+            Recipes.Add(new Recipe
+            {
+                Title = "Köttbullar med makaroner",
+                Ingredients = "Köttbullar och makaroner",
+                Instructions = "Stek köttbullarna och koka makaronerna.",
+                Category = "Huvudrätt",
+                Date = DateTime.Now,
+                CreatedBy = UserManager.LoggedIn
+            });
+            UserManager.LoggedIn.Recipes = Recipes;
         }
         //public void testUser()
         //{

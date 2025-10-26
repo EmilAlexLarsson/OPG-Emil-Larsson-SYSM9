@@ -27,15 +27,9 @@ namespace CookMaster.ViewModel
             //MessageBox.Show(UserManager.LoggedIn);
             
         }
-        private ObservableCollection<Recipe> _recipes;
         public ObservableCollection<Recipe> Recipes
         {
-            get { return UserManager.LoggedIn.Recipes; }
-            set
-            {
-                _recipes = value;
-                OnPropertyChanged();
-            }
+            get { return RecipeManager.Recipes; }
         }
         private Recipe _selectedRecipe;
         public Recipe SelectedRecipe
@@ -56,7 +50,7 @@ namespace CookMaster.ViewModel
         public void AddRecipe()
         {
 
-            AddRecipeWindow addRecipeWindow = new AddRecipeWindow();
+            AddRecipeWindow addRecipeWindow = new AddRecipeWindow(RecipeManager);
             addRecipeWindow.Show();
         }
 
