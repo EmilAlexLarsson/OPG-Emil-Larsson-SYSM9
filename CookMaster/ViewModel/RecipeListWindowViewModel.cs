@@ -65,7 +65,7 @@ namespace CookMaster.ViewModel
         }
         public void RemoveRecipe()
         {
-            //Ta bort markerat recept från listan
+            
         }
 
         public void SignOut()

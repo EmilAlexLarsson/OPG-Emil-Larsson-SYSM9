@@ -14,13 +14,16 @@ namespace CookMaster.Manager
     {
         public UserManager UserManager { get; }
         
-        public ObservableCollection<Recipe> Recipes { get; private set; }
+        public ObservableCollection<Recipe>? Recipes
+        {
+            get { return UserManager.LoggedIn?.Recipes; }
+        }
 
 
         public RecipeManager(UserManager userManager)
         {
             UserManager = userManager;
-            Recipes = new ObservableCollection<Recipe>();
+            
 
             DefaultRecipes();
         }
@@ -28,17 +31,27 @@ namespace CookMaster.Manager
         public void DefaultRecipes()
         {
 
-
-            Recipes.Add(new Recipe
+            if (UserManager.LoggedIn == null)
             {
-                Title = "Köttbullar med makaroner",
-                Ingredients = "Köttbullar och makaroner",
-                Instructions = "Stek köttbullarna och koka makaronerna.",
-                Category = "Huvudrätt",
-                Date = DateTime.Now,
-                CreatedBy = UserManager.LoggedIn
-            });
-            UserManager.LoggedIn.Recipes = Recipes;
+                return;
+            }
+
+            if (UserManager.LoggedIn.Recipes == null)
+            {
+                UserManager.LoggedIn.Recipes = new ObservableCollection<Recipe>();
+            }
+            if (UserManager.LoggedIn.Recipes.Count ==0)
+            {
+                UserManager.LoggedIn.Recipes.Add(new Recipe
+                {
+                    Title = "Köttbullar med makaroner",
+                    Ingredients = "Köttbullar och makaroner",
+                    Instructions = "Stek köttbullarna och koka makaronerna.",
+                    Category = "Huvudrätt",
+                    Date = DateTime.Now,
+                    CreatedBy = UserManager.LoggedIn
+                });
+            }
         }
         //public void testUser()
         //{
@@ -54,12 +67,12 @@ namespace CookMaster.Manager
 
         public void AddRecipe(Recipe recipe)
         {
-            UserManager.LoggedIn?.Recipes.Add(recipe);
+            Recipes?.Add(recipe);
         }
 
         public void RemoveRecipe(Recipe recipe)
         {
-            UserManager.LoggedIn?.Recipes.Remove(recipe);
+            Recipes?.Remove(recipe);
         }
 
         public void UpdateRecipe (Recipe recipe)
