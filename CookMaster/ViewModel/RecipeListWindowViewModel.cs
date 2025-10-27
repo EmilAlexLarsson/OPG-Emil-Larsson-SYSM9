@@ -63,12 +63,23 @@ namespace CookMaster.ViewModel
 
         public void Details ()
         {
-            RecipeDetailWindow recipeDetailWindow = new RecipeDetailWindow(RecipeManager, SelectedRecipe);
-            recipeDetailWindow.Show();
+            if (SelectedRecipe == null)
+            {
+                MessageBox.Show("You have to select a recipe to see details!");
+            }
+            else
+            {
+                RecipeDetailWindow recipeDetailWindow = new RecipeDetailWindow(RecipeManager, SelectedRecipe);
+                recipeDetailWindow.Show();
+            }
         }
         public void RemoveRecipe()
         {
-            if (SelectedRecipe != null)
+            if (SelectedRecipe == null)
+            {
+                MessageBox.Show("You have to select a recipe to remove!");
+            }
+            else
             {
                 RecipeManager.RemoveRecipe(SelectedRecipe);
             }
