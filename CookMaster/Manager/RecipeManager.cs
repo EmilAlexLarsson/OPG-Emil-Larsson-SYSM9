@@ -49,7 +49,7 @@ namespace CookMaster.Manager
                     Instructions = "Stek köttbullarna och koka makaronerna.",
                     Category = "Huvudrätt",
                     Date = DateTime.Now,
-                    CreatedBy = UserManager.LoggedIn
+                    CreatedBy = new User { Username = "CookMaster" }
                 });
             }
         }
@@ -77,7 +77,10 @@ namespace CookMaster.Manager
 
         public void UpdateRecipe (Recipe recipe)
         {
-            
+            if (recipe != null)
+            {
+                
+            }
         }
         
     }

@@ -19,32 +19,32 @@
         <StackPanel Grid.Row="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
                 <Label Content="Title:" Margin="5"/>
-                <TextBlock Text="{Binding SelectedRecipe.Title}" Width="300"/>
+                <TextBox Text="{Binding SelectedRecipe.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Edit}"  Width="300"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
                 <Label Content="Ingredients:" Margin="5"/>
-                <TextBlock Text="{Binding SelectedRecipe.Ingredients}" TextWrapping="Wrap" Width="300"/>
+                <TextBox Text="{Binding SelectedRecipe.Ingredients, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Edit}" TextWrapping="Wrap" Width="300"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
                 <Label Content="Instructions:"  Margin="5"/>
-                <TextBlock Text="{Binding SelectedRecipe.Instructions}" TextWrapping="Wrap" Width="300"/>
+                <TextBox Text="{Binding SelectedRecipe.Instructions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Edit}" TextWrapping="Wrap" Width="300"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
                 <Label Content="Category:" Margin="5"/>
-                <TextBlock Text="{Binding SelectedRecipe.Category}" Width="300"/>
+                <TextBox Text="{Binding SelectedRecipe.Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Edit}" Width="300"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
                 <Label Content="Date:" Margin="5"/>
-                <TextBlock Text="{Binding SelectedRecipe.Date}" Width="300"/>
+                <TextBox Text="{Binding SelectedRecipe.Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Edit}"  Width="300"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
                 <Label Content="Created by:" Margin="5" />
-                <TextBlock Text="{Binding SelectedRecipe.CreatedBy}" Width="300"/>
+                <TextBlock Text="{Binding SelectedRecipe.CreatedBy.Username, UpdateSourceTrigger=PropertyChanged }" Width="300"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1" Margin="5">
-            <Button Content="Edit Recipe" Command="{Binding EditRecipeCommand}" Margin="5" />
-            <Button Content="Save" Margin="5"/>
+            <Button Content="Edit Recipe" Command="{Binding EditCommand}" Margin="5" />
+            <Button Content="Save" Command="{Binding SaveCommand}" Margin="5"/>
         </StackPanel>
 
     </Grid>
