@@ -33,6 +33,14 @@ namespace CookMaster.Manager
                 OnPropertyChanged();
             }
         }
+        public List<string> Countries { get; set; } = new List<string>
+        {
+            "Sweden",
+            "Norway",
+            "Denmark",
+            "Finland",
+            "Iceland"
+        };
 
         public UserManager()
         {

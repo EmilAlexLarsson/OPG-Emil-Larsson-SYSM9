@@ -81,17 +81,14 @@ namespace CookMaster.ViewModel
                    CreatedBy = UserManager.LoggedIn
 
                 });
-                if (Application.Current.Windows.Count > 1)
+                RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
+                recipeListWindow.Show();
+                foreach (Window window in Application.Current.Windows)
                 {
-                    Application.Current.Windows[1].Close();
-                }
-                else
-                {
-                    RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
-                    recipeListWindow.Show();
-                    Application.Current.Windows[0].Close();
-
-
+                    if (window != recipeListWindow)
+                    {
+                        window.Close();
+                    }
                 }
             }
             else

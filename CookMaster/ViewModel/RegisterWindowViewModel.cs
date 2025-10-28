@@ -14,9 +14,11 @@ namespace CookMaster.ViewModel
     {
         
         public UserManager UserManager { get; }
+        public List<string> Countries { get; }
         public RegisterWindowViewModel(UserManager userManager)
         {
             UserManager = userManager;
+            Countries = UserManager.Countries;
             //for (int i = 0; i < Application.Current.Windows.Count; i++)
             //{
             //    MessageBox.Show($"{i}");
@@ -42,14 +44,8 @@ namespace CookMaster.ViewModel
                 OnPropertyChanged();
             }
         }
-        public List<string> Countries { get; set; } = new List<string>
-        {
-            "Sweden",
-            "Norway",
-            "Denmark",
-            "Finland",
-            "Iceland"
-        };
+        
+        
         private string _selectedCountry;
         public string SelectedCountry
         {

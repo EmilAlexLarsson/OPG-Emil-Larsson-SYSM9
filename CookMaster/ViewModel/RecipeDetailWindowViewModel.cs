@@ -112,9 +112,27 @@ namespace CookMaster.ViewModel
             {
                 if (window != recipeListWindow)
                 {
-                    window.Close();
+                    window.Close(); //kolla på annan variant
                 }
             }
+            //if (Application.Current.Windows.Count < 2)
+            //{
+            //    //RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
+
+            //    Application.Current.Windows[1].Close();
+
+            //}
+            //else
+            //{
+            //    recipeListWindow.Show();
+            //    foreach (Window window in Application.Current.Windows)
+            //    {
+            //        if (window != recipeListWindow)
+            //        {
+            //            window.Close();
+            //        }
+            //    }
+            //}
         }
 
     }
