@@ -49,6 +49,7 @@ namespace CookMaster.ViewModel
         public RelayCommand RemoveCommand => new RelayCommand(execute => RemoveRecipe());
         public RelayCommand DetailsCommand => new RelayCommand(execute => Details());
         public RelayCommand OpenUserCommand => new RelayCommand(execute => OpenUser());
+        public RelayCommand InfoCommand => new RelayCommand(execute => Info());
 
         public void AddRecipe()
         {
@@ -85,6 +86,10 @@ namespace CookMaster.ViewModel
             {
                 RecipeManager.RemoveRecipe(SelectedRecipe);
             }
+        }
+        public void Info()
+        {
+            MessageBox.Show("CookMaster is a platform for your recipes");
         }
 
         public void SignOut()

@@ -102,6 +102,7 @@ namespace CookMaster.ViewModel
         {
             Edit = true;
         }
+        //Kunna kopiera recept, alltså lägga till ett nytt istället för att ändra på samma, bool?
         public void SaveRecipe()
         {
             MessageBox.Show("Recipe saved!");
@@ -115,16 +116,14 @@ namespace CookMaster.ViewModel
                     window.Close(); //kolla på annan variant
                 }
             }
+            //RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
             //if (Application.Current.Windows.Count < 2)
             //{
-            //    //RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
-
-            //    Application.Current.Windows[1].Close();
 
             //}
             //else
             //{
-            //    recipeListWindow.Show();
+
             //    foreach (Window window in Application.Current.Windows)
             //    {
             //        if (window != recipeListWindow)

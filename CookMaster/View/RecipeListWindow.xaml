@@ -16,7 +16,7 @@
             <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
         <StackPanel>
-            <Button Content="info" HorizontalAlignment="Left"/>
+            <Button Content="info" Command="{Binding InfoCommand}" HorizontalAlignment="Left"/>
             <Label Content="Recipes" FontSize="50" FontStyle="Italic"/>
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="1">
