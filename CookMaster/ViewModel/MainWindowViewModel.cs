@@ -56,7 +56,7 @@ namespace CookMaster.ViewModel
             //}
 
             
-            if (UserManager.LogIn(Username, Password))
+            if (UserManager.LogIn(Username, Password, out string error))
             {
                 RecipeManager recipeManager = new RecipeManager(UserManager);
                 RecipeListWindow recipeListWindow = new RecipeListWindow(recipeManager);
@@ -65,7 +65,7 @@ namespace CookMaster.ViewModel
             }
             else
             {
-                MessageBox.Show("Wrong Username or password");
+                MessageBox.Show(error);
             }
         }
         private bool CanLogIn()

@@ -59,40 +59,29 @@ namespace CookMaster.ViewModel
         public RelayCommand CreateUserCommand => new RelayCommand(execute => CreateUser());
         public void CreateUser()
         {
-            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password) || string.IsNullOrWhiteSpace(SelectedCountry))
+            if (UserManager.Register(Username, Password, SelectedCountry, out string error))
             {
-                MessageBox.Show("Username, password or country can't be empty");
-                return;
-            }
-            if (UserManager.FindUser(Username) != null)
-            {
-                MessageBox.Show("Username already exists");
-                return;
-            }
-            else
-            {
-                UserManager.Register(Username, Password, SelectedCountry);
-
                 MessageBox.Show("New user created!");
-
-
-                //MainWindow mainWindow = new MainWindow();
-                //var result = mainWindow.ShowDialog();
-
-                //if(result != true)
-                //{
-                //    Application.Current.Shutdown();
-                //}
-                
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
                 Application.Current.Windows[0].Close();
-                //Stänger första fönstert i listan (index 0), alltså registerwindow, då det är det ända öppna fönstert
-
-
             }
+            else
+            {
+                MessageBox.Show(error);
+            }
+            //MainWindow mainWindow = new MainWindow();
+            //var result = mainWindow.ShowDialog();
 
+            //if(result != true)
+            //{
+            //    Application.Current.Shutdown();
+            //}
 
+            //MainWindow mainWindow = new MainWindow();
+            //mainWindow.Show();
+            //Application.Current.Windows[0].Close();
+            //Stänger första fönstert i listan (index 0), alltså registerwindow, då det är det ända öppna fönstert
         }
     }
 }

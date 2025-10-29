@@ -69,18 +69,8 @@ namespace CookMaster.ViewModel
         public RelayCommand AddRecipeCommand => new RelayCommand(execute => AddRecipe());
         public void AddRecipe()
         {
-            if(!string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Ingredients) && !string.IsNullOrWhiteSpace(Instructions) && !string.IsNullOrWhiteSpace(Category) )
+            if(RecipeManager.AddRecipe(Title, Ingredients, Instructions, Category, UserManager.LoggedIn, out string error))
             {
-                RecipeManager.AddRecipe(new Recipe
-                {
-                   Title = Title,
-                   Ingredients = Ingredients, 
-                   Instructions = Instructions,
-                   Category = Category,
-                   Date = DateTime.Now,
-                   CreatedBy = UserManager.LoggedIn
-
-                });
                 RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
                 recipeListWindow.Show();
                 foreach (Window window in Application.Current.Windows)
@@ -93,11 +83,38 @@ namespace CookMaster.ViewModel
             }
             else
             {
-                MessageBox.Show("Fill in the empty sections");
+                MessageBox.Show(error);
                 return;
             }
+            //if(!string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Ingredients) && !string.IsNullOrWhiteSpace(Instructions) && !string.IsNullOrWhiteSpace(Category) )
+            //{
+            //    RecipeManager.AddRecipe(new Recipe
+            //    {
+            //       Title = Title,
+            //       Ingredients = Ingredients, 
+            //       Instructions = Instructions,
+            //       Category = Category,
+            //       Date = DateTime.Now,
+            //       CreatedBy = UserManager.LoggedIn
+
+            //    });
+            //    RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
+            //    recipeListWindow.Show();
+            //    foreach (Window window in Application.Current.Windows)
+            //    {
+            //        if (window != recipeListWindow)
+            //        {
+            //            window.Close();
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Fill in the empty sections");
+            //    return;
+            //}
             //Om RecipeListWindow stängs innan AddRecipeWindow stängs så kraschar det
-            
+
             //if( Application.Current.Windows.Count > 1)
             //{
             //    Application.Current.Windows[1].Close();
@@ -107,7 +124,7 @@ namespace CookMaster.ViewModel
             //    RecipeListWindow recipeListWindow = new RecipeListWindow();
             //    recipeListWindow.Show();
             //    Application.Current.Windows[0].Close();
-                
+
             //}
         }
     }

@@ -62,30 +62,58 @@ namespace CookMaster.Manager
             });
         }
 
-        public bool LogIn(string username, string password)
+        public bool LogIn(string username, string password, out string error)
         {
-            
-            foreach (User user in Users)
+            error = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                if (user.Username == username && user.Password == password)
-                {
-                    LoggedIn = user;
-                    return true;
-                }
+                error = "Username or password cannot be empty";
+                return false;
             }
-            return false;
+            var user = FindUser(username);
+            if (user == null)
+            {
+                error = "User does not exist!";
+                return false;
+            }
+            if (user.Password != password)
+            {
+                error = "Wrong password!";
+                return false;
+            }
+            LoggedIn = user;
+
+            return true;
         }
-        public void Register(string username, string password, string country)
+        public bool Register(string username, string password, string country, out string error)
         {
+            error = string.Empty;
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(country))
+            {
+                error = "Username, password, and country cannot be empty";
+                return false;
+            }
+            var user = FindUser(username);
+            if (user != null)
+            {
+                error = "User already exists!";
+                return false;
+            }
             Users.Add(new User
             {
                 Username = username,
                 Password = password,
                 Country = country
             });
+            return true;
         }
         public User FindUser(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
             foreach (User user in Users)
             {
                 if (user.Username == name)
@@ -94,6 +122,35 @@ namespace CookMaster.Manager
                 }
             }
             return null;
+        }
+        public bool UpdateUserDetails(string username, string newPassword, string confirmPassword, string country, out string error)
+        {
+            error = string.Empty;
+
+            if(string.IsNullOrWhiteSpace(username)|| username.Length < 3)
+            {
+                error = "Username must be more than 3 characters!";
+                return false;
+            }
+            if(string.IsNullOrWhiteSpace(newPassword)|| string.IsNullOrWhiteSpace(confirmPassword))
+            {
+                error = "Password cannot be empty!";
+                return false;
+            }
+            if (newPassword != confirmPassword)
+            {
+                MessageBox.Show("Passwords do not match!");
+                return false;
+            }
+            if (LoggedIn == null)
+            {
+                error = "Cannot find logged in user!";
+                return false;
+            }
+            LoggedIn.Username = username;
+            LoggedIn.Password = newPassword;
+            LoggedIn.Country = country;
+            return true;
         }
     }
 }

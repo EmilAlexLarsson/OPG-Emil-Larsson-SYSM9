@@ -26,10 +26,10 @@ namespace CookMaster.ViewModel
 
         public string Username
         {
-            get { return UserManager.LoggedIn.Username; }
+            get { return UserManager.LoggedIn?.Username ?? string.Empty; }
             set
             {
-                if (UserManager.LoggedIn.Username != value)
+                if (UserManager.LoggedIn?.Username != value && UserManager.LoggedIn != null)
                 {
                     UserManager.LoggedIn.Username = value;
                     OnPropertyChanged();
@@ -65,10 +65,10 @@ namespace CookMaster.ViewModel
         private string _selectedCountry;
         public string SelectedCountry
         {
-            get { return UserManager.LoggedIn.Country; }
+            get { return UserManager.LoggedIn?.Country ?? string.Empty; }
             set
             {
-                if (UserManager.LoggedIn.Country != value)
+                if (UserManager.LoggedIn?.Country != value && UserManager.LoggedIn != null)
                 {
                     UserManager.LoggedIn.Country = value;
                     OnPropertyChanged();
@@ -82,36 +82,55 @@ namespace CookMaster.ViewModel
 
         public void Save()
         {
-            if (Username.Length < 3)
+            if(UserManager.UpdateUserDetails(Username, NewPassword, ConfirmPassword, SelectedCountry, out string error))
             {
-                MessageBox.Show("Username must be at least 3 characters long.");
-                return;
-            }
-            if(string.IsNullOrEmpty(NewPassword) || string.IsNullOrEmpty(ConfirmPassword))
-            {
-                MessageBox.Show("Password cannot be empty!");
-                return;
-            }
-            if (NewPassword != ConfirmPassword)
-            {
-                MessageBox.Show("Passwords do not match!");
-                return;
-            }
+                MessageBox.Show("User details updated!");
+                RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
+                recipeListWindow.Show();
 
-            UserManager.LoggedIn.Username = Username;
-            UserManager.LoggedIn.Password = NewPassword;
-            UserManager.LoggedIn.Country = SelectedCountry;
-
-            MessageBox.Show("New User details saved!");
-            RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
-            recipeListWindow.Show();
-            foreach (Window window in Application.Current.Windows)
-            {
-                if (window != recipeListWindow)
+                foreach (Window window in Application.Current.Windows)
                 {
-                    window.Close(); //kolla på annan variant
+                    if (window != recipeListWindow)
+                    {
+                        window.Close(); //kolla på annan variant
+                    }
                 }
+
             }
+            else
+            {
+                MessageBox.Show (error);
+            }
+            //if (Username.Length < 3)
+            //{
+            //    MessageBox.Show("Username must be at least 3 characters long.");
+            //    return;
+            //}
+            //if(string.IsNullOrEmpty(NewPassword) || string.IsNullOrEmpty(ConfirmPassword))
+            //{
+            //    MessageBox.Show("Password cannot be empty!");
+            //    return;
+            //}
+            //if (NewPassword != ConfirmPassword)
+            //{
+            //    MessageBox.Show("Passwords do not match!");
+            //    return;
+            //}
+
+            //UserManager.LoggedIn.Username = Username;
+            //UserManager.LoggedIn.Password = NewPassword;
+            //UserManager.LoggedIn.Country = SelectedCountry;
+
+            //MessageBox.Show("New User details saved!");
+            //RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
+            //recipeListWindow.Show();
+            //foreach (Window window in Application.Current.Windows)
+            //{
+            //    if (window != recipeListWindow)
+            //    {
+            //        window.Close(); //kolla på annan variant
+            //    }
+            //}
 
         }
         public void Cancel()

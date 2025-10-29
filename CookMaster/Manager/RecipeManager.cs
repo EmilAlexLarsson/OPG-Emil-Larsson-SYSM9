@@ -65,10 +65,32 @@ namespace CookMaster.Manager
         //    }
         //}
 
-        public void AddRecipe(Recipe recipe)
+        public bool AddRecipe(string title, string ingredients, string instructions, string category, User createdBy, out string error)
         {
-            Recipes?.Add(recipe);
+            error = string.Empty;
+            if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(ingredients) || string.IsNullOrEmpty(instructions) || string.IsNullOrEmpty(category))
+            {
+                error = "Fill in the empty sections";
+                return false;
+            }
+
+            Recipe newRecipe = new Recipe
+            {
+                Title = title,
+                Ingredients = ingredients,
+                Instructions = instructions,
+                Category = category,
+                Date = DateTime.Now,
+                CreatedBy = createdBy
+            };
+
+            Recipes?.Add(newRecipe);
+            return true;
         }
+        //public void AddRecipe(Recipe recipe)
+        //{
+        //    Recipes?.Add(recipe);
+        //}
 
         public void RemoveRecipe(Recipe recipe)
         {
