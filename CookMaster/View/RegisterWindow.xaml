@@ -17,8 +17,11 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
             <Label Content="Country"/>
-            <ComboBox Width="200" ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedCountry, Mode=TwoWay}"/> 
+            <ComboBox Width="200" ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedCountry, Mode=TwoWay}"/>
         </StackPanel>
+        <ComboBox ItemsSource="{Binding SecurityQuestion}" SelectedItem="{Binding SelectedQuestion, Mode=TwoWay}" Margin="5" HorizontalAlignment="Center" Width="200"/>
+        <TextBox Text="{Binding QuestionAnswer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" HorizontalAlignment="Center" Margin="5"/>
+
         <Button Content="Register" Margin="5" Command="{Binding CreateUserCommand}" HorizontalAlignment="Center"/>
     </StackPanel>
 </Window>

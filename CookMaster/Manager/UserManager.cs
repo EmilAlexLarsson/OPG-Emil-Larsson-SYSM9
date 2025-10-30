@@ -41,6 +41,12 @@ namespace CookMaster.Manager
             "Finland",
             "Iceland"
         };
+        public List<string> SecurityQuestion { get; set; } = new List<string>
+        {
+            "What is your favorite color?",
+            "What is your Lucky number?",
+            "What is your favorite sports team?"
+        };
 
         public UserManager()
         {
@@ -86,12 +92,12 @@ namespace CookMaster.Manager
 
             return true;
         }
-        public bool Register(string username, string password, string country, out string error)
+        public bool Register(string username, string password, string country,string question, string questionAnswer, out string error)
         {
             error = string.Empty;
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(country))
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(country) || string.IsNullOrWhiteSpace(question) || string.IsNullOrWhiteSpace(questionAnswer))
             {
-                error = "Username, password, and country cannot be empty";
+                error = "Please fill in username, password, country, answer and pick a question";
                 return false;
             }
             var user = FindUser(username);
@@ -104,7 +110,9 @@ namespace CookMaster.Manager
             {
                 Username = username,
                 Password = password,
-                Country = country
+                Country = country,
+                Question = question,
+                QuestionAnswer = questionAnswer
             });
             return true;
         }
@@ -151,6 +159,42 @@ namespace CookMaster.Manager
             LoggedIn.Password = newPassword;
             LoggedIn.Country = country;
             return true;
+        }
+        public bool ForgotPassword(string username, string questionAnswer, string newPassword, string confirmPassword, out string error)
+        {
+            error = string.Empty;
+            var user = FindUser(username);
+            if (user == null)
+            {
+                error = "Cannot find user!";
+                return false;
+            }
+            if(!string.Equals(user.QuestionAnswer, questionAnswer, StringComparison.OrdinalIgnoreCase))
+            {
+                error = "Incorrect answer!";
+                return false;
+            }
+            if(string.IsNullOrWhiteSpace(newPassword) || string.IsNullOrWhiteSpace(confirmPassword))
+            {
+                error = "Password cannot be empty!";
+                return false;
+            }
+            if(newPassword != confirmPassword)
+            {
+                error = "Passwords do not match!";
+                return false;
+            }
+            user.Password = newPassword;
+            return true;
+        }
+        public string Question(string username)
+        {
+            var user = FindUser(username);
+            if (user != null)
+            {
+                return user.Question;
+            }
+            return null;
         }
     }
 }

@@ -46,6 +46,7 @@ namespace CookMaster.ViewModel
         }
         public RelayCommand LogInCommand => new RelayCommand(execute => LogIn(), canExecute => CanLogIn());
         public RelayCommand RegisterCommand => new RelayCommand(execute => OpenRegister());
+        public RelayCommand ForgotPasswordCommand => new RelayCommand(execute => OpenForgotPassword());
 
         public void LogIn()
         {
@@ -80,6 +81,12 @@ namespace CookMaster.ViewModel
             Application.Current.Windows[0].Close();
             //Stänger fönsta fönstert i listan, alltså mainwidow, då det öppnades först
 
+        }
+        public void OpenForgotPassword()
+        {
+            ForgotPasswordWindow forgotPasswordWindow = new ForgotPasswordWindow();
+            forgotPasswordWindow.Show();
+            Application.Current.Windows[0].Close();
         }
     }
 }

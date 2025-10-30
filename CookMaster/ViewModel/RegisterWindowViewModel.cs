@@ -15,10 +15,12 @@ namespace CookMaster.ViewModel
         
         public UserManager UserManager { get; }
         public List<string> Countries { get; }
+        public List<string> SecurityQuestion { get; }
         public RegisterWindowViewModel(UserManager userManager)
         {
             UserManager = userManager;
             Countries = UserManager.Countries;
+            SecurityQuestion = UserManager.SecurityQuestion;
             //for (int i = 0; i < Application.Current.Windows.Count; i++)
             //{
             //    MessageBox.Show($"{i}");
@@ -44,8 +46,28 @@ namespace CookMaster.ViewModel
                 OnPropertyChanged();
             }
         }
-        
-        
+        private string _selectedQuestion;
+        public string SelectedQuestion
+        {
+            get { return _selectedQuestion; }
+            set
+            {
+                _selectedQuestion = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _questionAnswer;
+        public string QuestionAnswer
+        {
+            get { return _questionAnswer; }
+            set
+            {
+                _questionAnswer = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         private string _selectedCountry;
         public string SelectedCountry
         {
@@ -59,7 +81,7 @@ namespace CookMaster.ViewModel
         public RelayCommand CreateUserCommand => new RelayCommand(execute => CreateUser());
         public void CreateUser()
         {
-            if (UserManager.Register(Username, Password, SelectedCountry, out string error))
+            if (UserManager.Register(Username, Password, SelectedCountry, SelectedQuestion,QuestionAnswer, out string error))
             {
                 MessageBox.Show("New user created!");
                 MainWindow mainWindow = new MainWindow();
