@@ -16,6 +16,10 @@
             <TextBox Width="200" Text="{Binding Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+            <Label Content="Confirm Password"/>
+            <TextBox Width="200" Text="{Binding ConfirmPassword,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
             <Label Content="Country"/>
             <ComboBox Width="200" ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedCountry, Mode=TwoWay}"/>
         </StackPanel>

@@ -86,7 +86,7 @@ namespace CookMaster.ViewModel
         {
             ForgotPasswordWindow forgotPasswordWindow = new ForgotPasswordWindow();
             forgotPasswordWindow.Show();
-            Application.Current.Windows[0].Close();
+            Application.Current.Windows[0].Close(); //ev. ta bort
         }
     }
 }

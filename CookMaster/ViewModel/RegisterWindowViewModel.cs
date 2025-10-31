@@ -46,6 +46,16 @@ namespace CookMaster.ViewModel
                 OnPropertyChanged();
             }
         }
+        private string _confirmPassword;
+        public string ConfirmPassword
+        {
+            get { return _confirmPassword; }
+            set
+            {
+                _confirmPassword = value;
+                OnPropertyChanged();
+            }
+        }
         private string _selectedQuestion;
         public string SelectedQuestion
         {
@@ -81,7 +91,7 @@ namespace CookMaster.ViewModel
         public RelayCommand CreateUserCommand => new RelayCommand(execute => CreateUser());
         public void CreateUser()
         {
-            if (UserManager.Register(Username, Password, SelectedCountry, SelectedQuestion,QuestionAnswer, out string error))
+            if (UserManager.Register(Username, Password, ConfirmPassword, SelectedCountry, SelectedQuestion,QuestionAnswer, out string error))
             {
                 MessageBox.Show("New user created!");
                 MainWindow mainWindow = new MainWindow();

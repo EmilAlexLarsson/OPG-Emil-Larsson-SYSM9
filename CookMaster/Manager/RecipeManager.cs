@@ -51,6 +51,24 @@ namespace CookMaster.Manager
                     Date = DateTime.Now,
                     CreatedBy = new User { Username = "CookMaster" }
                 });
+                UserManager.LoggedIn.Recipes.Add(new Recipe
+                {
+                    Title = "Spaghetti bolognese",
+                    Ingredients = "Spaghetti, köttfärs, tomatsås",
+                    Instructions = "Koka spaghetti och blanda med köttfärs och tomatsås.",
+                    Category = "Huvudrätt",
+                    Date = DateTime.Now,
+                    CreatedBy = new User { Username = "CookMaster" }
+                });
+                UserManager.LoggedIn.Recipes.Add(new Recipe
+                {
+                    Title = "Äppelpaj",
+                    Ingredients = "Äpplen, socker, kanel, pajdeg",
+                    Instructions = "Skala och skiva äpplena. Blanda med socker och kanel. Fyll pajdegen med äppelfyllningen och grädda.",
+                    Category = "Efterrätt",
+                    Date = DateTime.Now,
+                    CreatedBy = new User { Username = "CookMaster" }
+                });
             }
         }
         //public void testUser()

@@ -92,7 +92,7 @@ namespace CookMaster.Manager
 
             return true;
         }
-        public bool Register(string username, string password, string country,string question, string questionAnswer, out string error)
+        public bool Register(string username, string password,string confirmPassword, string country,string question, string questionAnswer, out string error)
         {
             error = string.Empty;
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(country) || string.IsNullOrWhiteSpace(question) || string.IsNullOrWhiteSpace(questionAnswer))
@@ -100,12 +100,24 @@ namespace CookMaster.Manager
                 error = "Please fill in username, password, country, answer and pick a question";
                 return false;
             }
-            var user = FindUser(username);
-            if (user != null)
+
+            if (password != confirmPassword)
+            {
+                error = "Passwords do not match!";
+                return false;
+            }
+
+            if (FindUser(username) != null)
             {
                 error = "User already exists!";
                 return false;
             }
+
+            if (!ValidatePassword(password, out error))
+            {
+                return false;
+            }
+
             Users.Add(new User
             {
                 Username = username,
@@ -140,19 +152,27 @@ namespace CookMaster.Manager
                 error = "Username must be more than 3 characters!";
                 return false;
             }
+
             if(string.IsNullOrWhiteSpace(newPassword)|| string.IsNullOrWhiteSpace(confirmPassword))
             {
                 error = "Password cannot be empty!";
                 return false;
             }
-            if (newPassword != confirmPassword)
-            {
-                MessageBox.Show("Passwords do not match!");
-                return false;
-            }
+
             if (LoggedIn == null)
             {
                 error = "Cannot find logged in user!";
+                return false;
+            }
+
+            if (newPassword != confirmPassword)
+            {
+                error = "Passwords do not match!";
+                return false;
+            }
+            
+            if (!ValidatePassword(newPassword, out error))
+            {
                 return false;
             }
             LoggedIn.Username = username;
@@ -169,22 +189,59 @@ namespace CookMaster.Manager
                 error = "Cannot find user!";
                 return false;
             }
+
             if(!string.Equals(user.QuestionAnswer, questionAnswer, StringComparison.OrdinalIgnoreCase))
             {
                 error = "Incorrect answer!";
                 return false;
             }
+
             if(string.IsNullOrWhiteSpace(newPassword) || string.IsNullOrWhiteSpace(confirmPassword))
             {
                 error = "Password cannot be empty!";
                 return false;
             }
+
             if(newPassword != confirmPassword)
             {
                 error = "Passwords do not match!";
                 return false;
             }
+
+            if (!ValidatePassword(newPassword, out error))
+            {
+                return false;
+            }
             user.Password = newPassword;
+            return true;
+        }
+        public bool ValidatePassword(string password, out string error)
+        {
+            error = string.Empty;
+            if (password.Length < 8)
+            {
+                error = "Password must be at least 8 characters!";
+                return false;
+            }
+            if (!password.Any(char.IsDigit))
+            {
+                error = "Password must contain at least one digit!";
+                return false;
+            }
+            bool specialChar = false;
+            foreach (char c in password)
+            {
+                if (!char.IsLetterOrDigit(c))
+                {
+                    specialChar = true;
+                    break;
+                }
+            }
+            if (!specialChar)
+            {
+                error = "Password must contain at least one special character!";
+                return false;
+            }
             return true;
         }
         public string Question(string username)
@@ -196,5 +253,6 @@ namespace CookMaster.Manager
             }
             return null;
         }
+
     }
 }
