@@ -51,6 +51,15 @@ namespace CookMaster.ViewModel
         public RelayCommand OpenUserCommand => new RelayCommand(execute => OpenUser());
         public RelayCommand InfoCommand => new RelayCommand(execute => Info());
 
+        
+        //public void ViewAllRecipes()
+        //{
+        //    if(UserManager.LoggedIn is AdminUser)
+        //    {
+        //        //adminuser kan se alla recepten
+
+        //    }
+        //}
         public void AddRecipe()
         {
 
@@ -81,11 +90,11 @@ namespace CookMaster.ViewModel
             if (SelectedRecipe == null)
             {
                 MessageBox.Show("You have to select a recipe to remove!");
+                return;
             }
-            else
-            {
-                RecipeManager.RemoveRecipe(SelectedRecipe);
-            }
+            
+            RecipeManager.RemoveRecipe(SelectedRecipe);
+            OnPropertyChanged(nameof(Recipes));
         }
         public void Info()
         {

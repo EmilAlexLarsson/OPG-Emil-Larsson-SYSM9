@@ -13,10 +13,26 @@ namespace CookMaster.Manager
     public class RecipeManager : ViewModelBase
     {
         public UserManager UserManager { get; }
-        
+        //public ObservableCollection<Recipe> showAllRecipes { get; set; }
         public ObservableCollection<Recipe>? Recipes
         {
-            get { return UserManager.LoggedIn?.Recipes; }
+            get 
+            { 
+                if(UserManager.LoggedIn is AdminUser)
+                {
+                    var showAllRecipes = new ObservableCollection<Recipe>();
+
+                    foreach(var user in UserManager.Users)
+                    {
+                        foreach(Recipe recipe in user.Recipes)
+                        {
+                            showAllRecipes.Add(recipe);
+                        }
+                    }
+                    return showAllRecipes;
+                }
+                return UserManager.LoggedIn?.Recipes; 
+            }
         }
 
 
@@ -24,72 +40,147 @@ namespace CookMaster.Manager
         {
             UserManager = userManager;
             
-
-            DefaultRecipes();
+            User defaultUser = null;
+            foreach(User user in UserManager.Users)
+            {
+                if(user.Username == "user")
+                {
+                    defaultUser = user;
+                    break;
+                }
+            }
+            if(defaultUser != null)
+            {
+                if(defaultUser.Recipes == null || defaultUser.Recipes.Count == 0)
+                {
+                    DefaultRecipes(defaultUser);
+                }
+            }
+            
         }
 
-        public void DefaultRecipes()
+        public void DefaultRecipes(User defaultUser)
         {
-
-            if (UserManager.LoggedIn == null)
+            if (defaultUser == null)
             {
                 return;
             }
+            if(defaultUser.Recipes == null)
+            {
+                defaultUser.Recipes = new ObservableCollection<Recipe>();
+            }
+            if(defaultUser.Recipes.Count > 0)
+            {
+                return;
+            }
+            defaultUser.Recipes.Add(new Recipe
+            {
+                Title = "Köttbullar med makaroner",
+                Ingredients = "Köttbullar och makaroner",
+                Instructions = "Stek köttbullarna och koka makaronerna.",
+                Category = "Huvudrätt",
+                Date = new DateTime(2025, 10, 31),
+                CreatedBy = defaultUser
+            });
+            defaultUser.Recipes.Add(new Recipe
+            {
+                Title = "Äppelpaj",
+                Ingredients = "Äpplen, socker, kanel, pajdeg",
+                Instructions = "Skala och skiva äpplena. Blanda med socker och kanel. Fyll pajdegen med äppelfyllningen och grädda.",
+                Category = "Efterrätt",
+                Date = new DateTime(2025, 10, 31),
+                CreatedBy = defaultUser
+            });
 
-            if (UserManager.LoggedIn.Recipes == null)
-            {
-                UserManager.LoggedIn.Recipes = new ObservableCollection<Recipe>();
-            }
-            if (UserManager.LoggedIn.Recipes.Count ==0)
-            {
-                UserManager.LoggedIn.Recipes.Add(new Recipe
-                {
-                    Title = "Köttbullar med makaroner",
-                    Ingredients = "Köttbullar och makaroner",
-                    Instructions = "Stek köttbullarna och koka makaronerna.",
-                    Category = "Huvudrätt",
-                    Date = new DateTime(2025, 10, 31),
-                    CreatedBy = new User { Username = "CookMaster" }
-                });
-                UserManager.LoggedIn.Recipes.Add(new Recipe
-                {
-                    Title = "Spaghetti bolognese",
-                    Ingredients = "Spaghetti, köttfärs, tomatsås",
-                    Instructions = "Koka spaghetti och blanda med köttfärs och tomatsås.",
-                    Category = "Huvudrätt",
-                    Date = new DateTime(2025, 10, 31),
-                    CreatedBy = new User { Username = "CookMaster" }
-                });
-                UserManager.LoggedIn.Recipes.Add(new Recipe
-                {
-                    Title = "Äppelpaj",
-                    Ingredients = "Äpplen, socker, kanel, pajdeg",
-                    Instructions = "Skala och skiva äpplena. Blanda med socker och kanel. Fyll pajdegen med äppelfyllningen och grädda.",
-                    Category = "Efterrätt",
-                    Date = new DateTime(2025, 10, 31),
-                    CreatedBy = new User { Username = "CookMaster" }
-                });
-            }
+            //User CookMaster = new User { Username = "Cookmaster" };
+            //if (UserManager.LoggedIn == null)
+            //{
+            //    return;
+            //}
+
+            //if (UserManager.LoggedIn.Recipes == null)
+            //{
+            //    UserManager.LoggedIn.Recipes = new ObservableCollection<Recipe>();
+            //}
+            //if (UserManager.LoggedIn.Recipes.Any())
+            //{
+            //    return;
+            //}
+
+            //AddRecipe(
+            //    "Köttbullar med makaroner",
+            //    "Köttbullar och makaroner",
+            //    "Stek köttbullarna och koka makaronerna.",
+            //    "Huvudrätt",
+            //    CookMaster
+            //    );
+            //AddRecipe(
+            //    "Spaghetti bolognese",
+            //    "Spaghetti, köttfärs, tomatsås",
+            //    "Koka spaghetti och blanda med köttfärs och tomatsås.",
+            //    "Huvudrätt",
+            //    CookMaster
+            //);
+            //AddRecipe(
+            //    "Äppelpaj",
+            //    "Äpplen, socker, kanel, pajdeg",
+            //    "Skala och skiva äpplena. Blanda med socker och kanel. Fyll pajdegen med äppelfyllningen och grädda.",
+            //    "Efterrätt",
+            //    CookMaster
+            //);
+
+
+
+
+
+
+            //Recipes.Add(new Recipe
+            //{
+            //    Title = "Köttbullar med makaroner",
+            //    Ingredients = "Köttbullar och makaroner",
+            //    Instructions = "Stek köttbullarna och koka makaronerna.",
+            //    Category = "Huvudrätt",
+            //    Date = new DateTime(2025, 10, 31),
+            //    CreatedBy = new User { Username = "CookMaster" }
+            //});
+            //Recipes.Add(new Recipe
+            //{
+            //    Title = "Spaghetti bolognese",
+            //    Ingredients = "Spaghetti, köttfärs, tomatsås",
+            //    Instructions = "Koka spaghetti och blanda med köttfärs och tomatsås.",
+            //    Category = "Huvudrätt",
+            //    Date = new DateTime(2025, 10, 31),
+            //    CreatedBy = new User { Username = "CookMaster" }
+            //});
+            //Recipes.Add(new Recipe
+            //{
+            //    Title = "Äppelpaj",
+            //    Ingredients = "Äpplen, socker, kanel, pajdeg",
+            //    Instructions = "Skala och skiva äpplena. Blanda med socker och kanel. Fyll pajdegen med äppelfyllningen och grädda.",
+            //    Category = "Efterrätt",
+            //    Date = new DateTime(2025, 10, 31),
+            //    CreatedBy = new User { Username = "CookMaster" }
+            //});
+
         }
-        //public void testUser()
-        //{
-        //    if (UserManager.LoggedIn != null)
-        //    {
-        //        Console.WriteLine("Logged in user: " + UserManager.LoggedIn.Username);
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("No user is currently logged in.");
-        //    }
-        //}
-
+        
         public bool AddRecipe(string title, string ingredients, string instructions, string category, User createdBy)
         {
             if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(ingredients) || string.IsNullOrEmpty(instructions) || string.IsNullOrEmpty(category))
             {
                 return false;
             }
-
+            if (Recipes == null)
+            {
+                return false;
+            }
+            foreach (Recipe existingRecipe in Recipes)
+            {
+                if(existingRecipe.Title == title)
+                {
+                    return false;
+                }
+            }
             Recipe newRecipe = new Recipe
             {
                 Title = title,
@@ -114,8 +205,35 @@ namespace CookMaster.Manager
             {
                 return;
             }
+            if(UserManager.LoggedIn is AdminUser)
+            {
+                //Recipes.Remove(recipe);
+                //showAllRecipes.Remove(recipe);
+
+                foreach (var user in UserManager.Users)
+                {
+                    if (user.Recipes.Contains(recipe))
+                    {
+                        user.Recipes.Remove(recipe);
+                        //showAllRecipes.Remove(recipe);
+                        return;
+                    }
+                }
+                return;
+            }
             Recipes?.Remove(recipe);
+            //UserManager.LoggedIn.Recipes.Remove(recipe);
         }
+        //public ObservableCollection<Recipe> GetAllRecipes()
+        //{
+            
+        //        if (Recipes == null)
+        //        {
+        //            return null;
+        //        }
+        //        return new ObservableCollection<Recipe>(Recipes);
+            
+        //}
         public Recipe CopyRecipe(Recipe recipe)
         {
             if (recipe == null)
@@ -135,13 +253,44 @@ namespace CookMaster.Manager
             return copiedRecipe;
         }
 
-        public void UpdateRecipe (Recipe recipe)
-        {
-            if (recipe != null)
-            {
-                
-            }
-        }
+        //public void UpdateRecipe (Recipe updateRecipe)
+        //{
+        //    if (updateRecipe == null)
+        //    {
+        //        return;
+        //    }
+        //    if(UserManager.LoggedIn is AdminUser)
+        //    {
+        //        foreach (var user in UserManager.Users)
+        //        {
+        //            foreach(var recipe in user.Recipes)
+        //            {
+        //                if(recipe.Title == updateRecipe.Title)
+        //                {
+        //                    recipe.Ingredients = updateRecipe.Ingredients;
+        //                    recipe.Instructions = updateRecipe.Instructions;
+        //                    recipe.Category = updateRecipe.Category;
+        //                    recipe.Date = DateTime.Now;
+        //                    return;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach(var recipe in UserManager.LoggedIn.Recipes)
+        //        {
+        //            if (recipe.Title == updateRecipe.Title)
+        //            {
+        //                recipe.Ingredients = updateRecipe.Ingredients;
+        //                recipe.Instructions = updateRecipe.Instructions;
+        //                recipe.Category = updateRecipe.Category;
+        //                recipe.Date = DateTime.Now;
+        //                return;
+        //            }
+        //        }
+        //    }
+        //}
         
     }
 }

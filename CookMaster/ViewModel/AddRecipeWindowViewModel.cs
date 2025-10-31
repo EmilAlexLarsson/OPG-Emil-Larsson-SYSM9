@@ -83,7 +83,7 @@ namespace CookMaster.ViewModel
             }
             else
             {
-                MessageBox.Show("Fill in the empty sections");
+                MessageBox.Show("Fill in the empty sections or recipe title might already exist");
                 return;
             }
             //if(!string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Ingredients) && !string.IsNullOrWhiteSpace(Instructions) && !string.IsNullOrWhiteSpace(Category) )
