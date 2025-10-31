@@ -38,66 +38,83 @@ namespace CookMaster.ViewModel
                 OnPropertyChanged();
             }
         }
+        public bool IsCopy { get; set; } = false;
+
         public RecipeDetailWindowViewModel(UserManager userManager, RecipeManager recipeManager, Recipe selectedRecipe)
         {
             UserManager = userManager;
             RecipeManager = recipeManager;
             Recipes = RecipeManager.Recipes;
             SelectedRecipe = selectedRecipe;
+            
+
+            if (IsCopy == true)
+            {
+                Edit = true;
+            }
+            if(SelectedRecipe != null)
+            {
+                Title = SelectedRecipe.Title;
+                Ingredients = SelectedRecipe.Ingredients;
+                Instructions = SelectedRecipe.Instructions;
+                Category = SelectedRecipe.Category;
+                Date = SelectedRecipe.Date;
+            }
 
         }
-        //private string _title;
-        //public string Title
-        //{
-        //    get { return _title; }
-        //    set
-        //    {
-        //        _title = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-        //private string _ingredients;
-        //public string Ingredients
-        //{
-        //    get { return _ingredients; }
-        //    set
-        //    {
-        //        _ingredients = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-        //private string _instructions;
-        //public string Instructions
-        //{
-        //    get { return _instructions; }
-        //    set
-        //    {
-        //        _instructions = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-        //private string _category;
-        //public string Category
-        //{
-        //    get { return _category; }
-        //    set
-        //    {
-        //        _category = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-        //private DateTime _date = DateTime.Now;
-        //public DateTime Date
-        //{
-        //    get { return _date; }
-        //    set
-        //    {
-        //        _date = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-        public RelayCommand EditCommand => new RelayCommand(execute => EditRecipe());
+        private string _title;
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _ingredients;
+        public string Ingredients
+        {
+            get { return _ingredients; }
+            set
+            {
+                _ingredients = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _instructions;
+        public string Instructions
+        {
+            get { return _instructions; }
+            set
+            {
+                _instructions = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _category;
+        public string Category
+        {
+            get { return _category; }
+            set
+            {
+                _category = value;
+                OnPropertyChanged();
+            }
+        }
+        private DateTime _date = DateTime.Now;
+        public DateTime Date
+        {
+            get { return _date; }
+            set
+            {
+                _date = value;
+                OnPropertyChanged();
+            }
+        }
+        public RelayCommand EditCommand => new RelayCommand(execute => EditRecipe(), canExecute => !Edit);
         public RelayCommand SaveCommand => new RelayCommand(execute => SaveRecipe());
+        public RelayCommand CopyCommand => new RelayCommand(execute => CopyRecipe(), canExecute => !IsCopy);
         public void EditRecipe()
         {
             Edit = true;
@@ -105,7 +122,22 @@ namespace CookMaster.ViewModel
         //Kunna kopiera recept, alltså lägga till ett nytt istället för att ändra på samma, bool?
         public void SaveRecipe()
         {
-            MessageBox.Show("Recipe saved!");
+            if (IsCopy)
+            {
+                SelectedRecipe.Date = DateTime.Now;
+                RecipeManager.Recipes.Add(SelectedRecipe);
+                MessageBox.Show("Recipe copied and saved!");
+
+            }
+            else
+            {
+                SelectedRecipe.Title = Title;
+                SelectedRecipe.Ingredients = Ingredients;
+                SelectedRecipe.Instructions = Instructions;
+                SelectedRecipe.Category = Category;
+                SelectedRecipe.Date = DateTime.Now;
+                MessageBox.Show("Recipe saved!");
+            }
             SelectedRecipe.Date = DateTime.Now;
             RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
             recipeListWindow.Show();
@@ -132,6 +164,24 @@ namespace CookMaster.ViewModel
             //        }
             //    }
             //}
+        }
+        //window is RecipeListWindow
+        public void CopyRecipe()
+        {
+           
+            IsCopy = true;
+            Edit = true;
+
+            SelectedRecipe = new Recipe
+            {
+                Title = SelectedRecipe.Title + " (Copied recipe!)",
+                Ingredients = SelectedRecipe.Ingredients,
+                Instructions = SelectedRecipe.Instructions,
+                Category = SelectedRecipe.Category,
+                Date = DateTime.Now,
+                CreatedBy = UserManager.LoggedIn
+            };
+
         }
 
     }

@@ -48,7 +48,7 @@ namespace CookMaster.Manager
                     Ingredients = "Köttbullar och makaroner",
                     Instructions = "Stek köttbullarna och koka makaronerna.",
                     Category = "Huvudrätt",
-                    Date = DateTime.Now,
+                    Date = new DateTime(2025, 10, 31),
                     CreatedBy = new User { Username = "CookMaster" }
                 });
                 UserManager.LoggedIn.Recipes.Add(new Recipe
@@ -57,7 +57,7 @@ namespace CookMaster.Manager
                     Ingredients = "Spaghetti, köttfärs, tomatsås",
                     Instructions = "Koka spaghetti och blanda med köttfärs och tomatsås.",
                     Category = "Huvudrätt",
-                    Date = DateTime.Now,
+                    Date = new DateTime(2025, 10, 31),
                     CreatedBy = new User { Username = "CookMaster" }
                 });
                 UserManager.LoggedIn.Recipes.Add(new Recipe
@@ -66,7 +66,7 @@ namespace CookMaster.Manager
                     Ingredients = "Äpplen, socker, kanel, pajdeg",
                     Instructions = "Skala och skiva äpplena. Blanda med socker och kanel. Fyll pajdegen med äppelfyllningen och grädda.",
                     Category = "Efterrätt",
-                    Date = DateTime.Now,
+                    Date = new DateTime(2025, 10, 31),
                     CreatedBy = new User { Username = "CookMaster" }
                 });
             }
@@ -83,12 +83,10 @@ namespace CookMaster.Manager
         //    }
         //}
 
-        public bool AddRecipe(string title, string ingredients, string instructions, string category, User createdBy, out string error)
+        public bool AddRecipe(string title, string ingredients, string instructions, string category, User createdBy)
         {
-            error = string.Empty;
             if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(ingredients) || string.IsNullOrEmpty(instructions) || string.IsNullOrEmpty(category))
             {
-                error = "Fill in the empty sections";
                 return false;
             }
 
@@ -112,7 +110,29 @@ namespace CookMaster.Manager
 
         public void RemoveRecipe(Recipe recipe)
         {
+            if (recipe == null)
+            {
+                return;
+            }
             Recipes?.Remove(recipe);
+        }
+        public Recipe CopyRecipe(Recipe recipe)
+        {
+            if (recipe == null)
+            {
+                return null;
+            }
+            Recipe copiedRecipe = new Recipe
+            {
+                Title = recipe.Title,
+                Ingredients = recipe.Ingredients,
+                Instructions = recipe.Instructions,
+                Category = recipe.Category,
+                Date = DateTime.Now,
+                CreatedBy = UserManager.LoggedIn
+            };
+            Recipes?.Add(copiedRecipe);
+            return copiedRecipe;
         }
 
         public void UpdateRecipe (Recipe recipe)

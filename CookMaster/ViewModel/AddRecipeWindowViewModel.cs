@@ -69,7 +69,7 @@ namespace CookMaster.ViewModel
         public RelayCommand AddRecipeCommand => new RelayCommand(execute => AddRecipe());
         public void AddRecipe()
         {
-            if(RecipeManager.AddRecipe(Title, Ingredients, Instructions, Category, UserManager.LoggedIn, out string error))
+            if(RecipeManager.AddRecipe(Title, Ingredients, Instructions, Category, UserManager.LoggedIn))
             {
                 RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
                 recipeListWindow.Show();
@@ -83,7 +83,7 @@ namespace CookMaster.ViewModel
             }
             else
             {
-                MessageBox.Show(error);
+                MessageBox.Show("Fill in the empty sections");
                 return;
             }
             //if(!string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Ingredients) && !string.IsNullOrWhiteSpace(Instructions) && !string.IsNullOrWhiteSpace(Category) )
