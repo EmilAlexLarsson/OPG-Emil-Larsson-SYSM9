@@ -13,25 +13,30 @@ namespace CookMaster.Manager
     public class RecipeManager : ViewModelBase
     {
         public UserManager UserManager { get; }
-        //public ObservableCollection<Recipe> showAllRecipes { get; set; }
+        public ObservableCollection<Recipe> ShowAllRecipes { get; set; } = new ObservableCollection<Recipe>();
         public ObservableCollection<Recipe>? Recipes
         {
             get 
-            { 
-                if(UserManager.LoggedIn is AdminUser)
+            {
+                if (UserManager.LoggedIn is AdminUser)
                 {
-                    var showAllRecipes = new ObservableCollection<Recipe>();
-
-                    foreach(var user in UserManager.Users)
-                    {
-                        foreach(Recipe recipe in user.Recipes)
-                        {
-                            showAllRecipes.Add(recipe);
-                        }
-                    }
-                    return showAllRecipes;
+                    return ShowAllRecipes;
                 }
-                return UserManager.LoggedIn?.Recipes; 
+                return UserManager.LoggedIn?.Recipes;
+                //if(UserManager.LoggedIn is AdminUser)
+                //{
+                //    var showAllRecipes = new ObservableCollection<Recipe>();
+
+                    //    foreach(var user in UserManager.Users)
+                    //    {
+                    //        foreach(Recipe recipe in user.Recipes)
+                    //        {
+                    //            showAllRecipes.Add(recipe);
+                    //        }
+                    //    }
+                    //    return showAllRecipes;
+                    //}
+                    //return UserManager.LoggedIn?.Recipes; 
             }
         }
 
@@ -56,7 +61,9 @@ namespace CookMaster.Manager
                     DefaultRecipes(defaultUser);
                 }
             }
-            
+            ShowAllUserRecipe();
+
+
         }
 
         public void DefaultRecipes(User defaultUser)
@@ -170,17 +177,18 @@ namespace CookMaster.Manager
             {
                 return false;
             }
-            if (Recipes == null)
-            {
-                return false;
-            }
-            foreach (Recipe existingRecipe in Recipes)
-            {
-                if(existingRecipe.Title == title)
-                {
-                    return false;
-                }
-            }
+            //if (Recipes == null)
+            //{
+            //    return false;
+            //}
+            //foreach (Recipe existingRecipe in Recipes)
+            //{
+            //    if(existingRecipe.Title == title)
+            //    {
+            //        return false;
+            //    }
+            //}
+
             Recipe newRecipe = new Recipe
             {
                 Title = title,
@@ -191,38 +199,103 @@ namespace CookMaster.Manager
                 CreatedBy = createdBy
             };
 
-            Recipes?.Add(newRecipe);
+            //Recipes?.Add(newRecipe);
+            //return true;
+
+            if (UserManager.LoggedIn is AdminUser admin)
+            {
+                if (admin.Recipes == null)
+                {
+                    admin.Recipes = new ObservableCollection<Recipe>();
+                }
+                foreach (Recipe existingRecipe in admin.Recipes)
+                {
+                    if (existingRecipe.Title == title)
+                    {
+                        return false;
+                    }
+                }
+                admin.Recipes.Add (newRecipe);
+                //return true;
+            }
+            else if (UserManager.LoggedIn != null)
+            {
+                if (UserManager.LoggedIn.Recipes == null)
+                {
+                    UserManager.LoggedIn.Recipes = new ObservableCollection<Recipe>();
+                }
+                foreach (Recipe existingRecipe in UserManager.LoggedIn.Recipes)
+                {
+                    if (existingRecipe.Title == title)
+                    {
+                        return false;
+                    }
+                }
+                UserManager.LoggedIn.Recipes.Add(newRecipe);
+                
+            }
+            else
+            {
+                return false;
+            }
+            if (ShowAllRecipes == null)
+            {
+                ShowAllRecipes = new ObservableCollection<Recipe>();
+            }
+            foreach (Recipe existingRecipe in ShowAllRecipes)
+            {
+                if (existingRecipe.Title == title)
+                {
+                    return false;
+                }
+            }
+            ShowAllRecipes.Add(newRecipe);
+            ShowAllUserRecipe();
             return true;
         }
-        //public void AddRecipe(Recipe recipe)
-        //{
-        //    Recipes?.Add(recipe);
-        //}
+        
 
         public void RemoveRecipe(Recipe recipe)
         {
+            //if (recipe == null)
+            //{
+            //    return;
+            //}
+            //if(UserManager.LoggedIn is AdminUser)
+            //{
+            //    //Recipes.Remove(recipe);
+            //    //showAllRecipes.Remove(recipe);
+
+            //    foreach (var user in UserManager.Users)
+            //    {
+            //        if (user.Recipes.Contains(recipe))
+            //        {
+            //            user.Recipes.Remove(recipe);
+            //            //showAllRecipes.Remove(recipe);
+            //            return;
+            //        }
+            //    }
+            //    return;
+            //}
+            //Recipes?.Remove(recipe);
+            //UserManager.LoggedIn.Recipes.Remove(recipe);
             if (recipe == null)
             {
                 return;
             }
-            if(UserManager.LoggedIn is AdminUser)
+            foreach (User user in UserManager.Users)
             {
-                //Recipes.Remove(recipe);
-                //showAllRecipes.Remove(recipe);
-
-                foreach (var user in UserManager.Users)
+                if (user.Recipes != null && user.Recipes.Contains(recipe))
                 {
-                    if (user.Recipes.Contains(recipe))
-                    {
-                        user.Recipes.Remove(recipe);
-                        //showAllRecipes.Remove(recipe);
-                        return;
-                    }
+                    user.Recipes.Remove(recipe);
+                    break;
                 }
-                return;
             }
-            Recipes?.Remove(recipe);
-            //UserManager.LoggedIn.Recipes.Remove(recipe);
+            if(ShowAllRecipes != null && ShowAllRecipes.Contains(recipe))
+            {
+                ShowAllRecipes.Remove(recipe);
+            }
+            ShowAllUserRecipe();
         }
         //public ObservableCollection<Recipe> GetAllRecipes()
         //{
@@ -251,6 +324,21 @@ namespace CookMaster.Manager
             };
             Recipes?.Add(copiedRecipe);
             return copiedRecipe;
+        }
+        public void ShowAllUserRecipe()
+        {
+            ShowAllRecipes.Clear();
+
+            foreach (User user in UserManager.Users)
+            {
+                if (user.Recipes != null)
+                {
+                    foreach(Recipe recipe in user.Recipes)
+                    {
+                        ShowAllRecipes?.Add(recipe);
+                    }
+                }
+            }
         }
 
         //public void UpdateRecipe (Recipe updateRecipe)
