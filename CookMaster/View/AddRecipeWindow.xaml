@@ -10,27 +10,27 @@
         <Label Content="Add new Recipe" HorizontalAlignment="Center" FontStyle="Italic" FontSize="20"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
             <Label Content="Title" HorizontalAlignment="Left"/>
-            <TextBox Width="200" Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="200" Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
             <Label Content="Ingredients"/>
-            <TextBox Width="200" Text="{Binding Ingredients,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="200" Text="{Binding Ingredients,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
             <Label Content="Instructions"/>
-            <TextBox Width="200" Text="{Binding Instructions,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="50" />
+            <TextBox Width="200" Text="{Binding Instructions,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="50" VerticalAlignment="Center" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
             <Label Content="Category"/>
-            <TextBox Width="200" Text="{Binding Category,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="200" Text="{Binding Category,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
             <Label Content="Date"/>
-            <TextBlock Width="200" Text="{Binding Date,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Width="200" Text="{Binding Date,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
             <Label Content="Created by"/>
-            <TextBlock Width="200" Text="{Binding Source={StaticResource UserManager}, Path=LoggedIn.Username}"/>
+            <TextBlock Width="200" Text="{Binding Source={StaticResource UserManager}, Path=LoggedIn.Username}" VerticalAlignment="Center"/>
         </StackPanel>
         <StackPanel>
             <Button Content="Add Recipe" Margin="5" Command="{Binding AddRecipeCommand}" HorizontalAlignment="Center"/>
