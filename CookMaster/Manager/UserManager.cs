@@ -1,5 +1,6 @@
 ﻿using CookMaster.Model;
 using CookMaster.MVVM;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,6 +34,7 @@ namespace CookMaster.Manager
                 OnPropertyChanged();
             }
         }
+        
         public List<string> Countries { get; set; } = new List<string>
         {
             "Sweden",
@@ -47,6 +49,7 @@ namespace CookMaster.Manager
             "What is your Lucky number?",
             "What is your favorite sports team?"
         };
+        private Random random = new Random();
 
         public UserManager()
         {
@@ -88,6 +91,21 @@ namespace CookMaster.Manager
                 error = "Wrong password!";
                 return false;
             }
+
+            string verificationCode = random.Next(100000, 999999).ToString();
+            MessageBox.Show("Your 2FA code \n" + verificationCode);
+            string codeInput = Interaction.InputBox("Enter 2FA code: ", "Verification code", "");
+
+            if (string.IsNullOrEmpty(codeInput))
+            {
+                error = "Please enter code";
+                return false;
+            }
+            if (codeInput != verificationCode)
+            {
+                error = "Incorrect code";
+            }
+
             LoggedIn = user;
 
             return true;
