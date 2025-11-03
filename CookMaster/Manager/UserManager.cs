@@ -93,7 +93,7 @@ namespace CookMaster.Manager
             }
 
             string verificationCode = random.Next(100000, 999999).ToString();
-            MessageBox.Show("Your 2FA code \n" + verificationCode);
+            MessageBox.Show("Your 2FA code: \n" + verificationCode);
             string codeInput = Interaction.InputBox("Enter 2FA code: ", "Verification code", "");
 
             if (string.IsNullOrEmpty(codeInput))

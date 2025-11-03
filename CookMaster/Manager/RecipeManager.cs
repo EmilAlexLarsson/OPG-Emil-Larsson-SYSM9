@@ -95,7 +95,7 @@ namespace CookMaster.Manager
                 Ingredients = "Äpplen, socker, kanel, pajdeg",
                 Instructions = "Skala och skiva äpplena. Blanda med socker och kanel. Fyll pajdegen med äppelfyllningen och grädda.",
                 Category = "Efterrätt",
-                Date = new DateTime(2025, 10, 31),
+                Date = new DateTime(2024, 10, 31),
                 CreatedBy = defaultUser
             });
 
@@ -338,6 +338,40 @@ namespace CookMaster.Manager
                         ShowAllRecipes?.Add(recipe);
                     }
                 }
+            }
+        }
+        public void SortByNewest()
+        {
+            ObservableCollection<Recipe> recipeList;
+
+            if (UserManager.LoggedIn is AdminUser)
+            {
+                recipeList = ShowAllRecipes;
+            }
+            else
+            {
+                recipeList = UserManager.LoggedIn?.Recipes;
+            }
+            if (recipeList == null)
+            {
+                return;
+            }
+
+            List<Recipe> sortRecipes = new List<Recipe>(recipeList);
+            sortRecipes.Sort((recipe1, recipe2) => recipe2.Date.CompareTo(recipe1.Date)); //om 2 är nyare, lägg de före 1
+            recipeList.Clear();
+
+            foreach(Recipe recipe in sortRecipes)
+            {
+                recipeList.Add(recipe);
+            }
+
+        }
+        public void CategoryFilter(string category)
+        {
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                return;
             }
         }
 

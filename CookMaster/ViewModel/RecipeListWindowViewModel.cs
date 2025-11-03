@@ -41,6 +41,19 @@ namespace CookMaster.ViewModel
                 OnPropertyChanged();
             }
         }
+        private string _search;
+        public string Search
+        {
+            get
+            {
+                return _search;
+            }
+            set
+            {
+                _search = value;
+                OnPropertyChanged();
+            }
+        }
 
         
         //public RelayCommand LogInCommand => new RelayCommand(execute => );
@@ -50,8 +63,9 @@ namespace CookMaster.ViewModel
         public RelayCommand DetailsCommand => new RelayCommand(execute => Details());
         public RelayCommand OpenUserCommand => new RelayCommand(execute => OpenUser());
         public RelayCommand InfoCommand => new RelayCommand(execute => Info());
+        public RelayCommand SortCommand => new RelayCommand(execute => SortByNewest());
 
-        
+
         //public void ViewAllRecipes()
         //{
         //    if(UserManager.LoggedIn is AdminUser)
@@ -99,6 +113,12 @@ namespace CookMaster.ViewModel
         public void Info()
         {
             MessageBox.Show("CookMaster is a platform for your recipes");
+        }
+        public void SortByNewest()
+        {
+            RecipeManager.SortByNewest();
+            OnPropertyChanged(nameof(Recipes));
+
         }
 
         public void SignOut()

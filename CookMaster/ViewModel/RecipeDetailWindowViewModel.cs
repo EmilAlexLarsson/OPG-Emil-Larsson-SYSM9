@@ -125,7 +125,7 @@ namespace CookMaster.ViewModel
             if (IsCopy)
             {
                 SelectedRecipe.Date = DateTime.Now;
-                RecipeManager.Recipes.Add(SelectedRecipe);
+                RecipeManager?.Recipes?.Add(SelectedRecipe);
                 MessageBox.Show("Recipe copied and saved!");
 
             }
