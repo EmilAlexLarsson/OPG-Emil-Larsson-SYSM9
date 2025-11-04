@@ -20,8 +20,8 @@
             <Label Content="Recipes" FontSize="50" FontStyle="Italic"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-            <TextBox Width="100" Margin="5"/>
-            <Button Content="Filter" Margin="5"/>
+            <TextBox Width="100" Margin="5" Text="{Binding Search ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Content="Filter" Command="{Binding FilterCommand}" Margin="5"/>
             <Button Content="Sort by newest" Margin="5" Command="{Binding SortCommand}"/>
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="1">

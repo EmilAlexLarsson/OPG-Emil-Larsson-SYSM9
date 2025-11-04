@@ -369,9 +369,44 @@ namespace CookMaster.Manager
         }
         public void CategoryFilter(string category)
         {
-            if (string.IsNullOrWhiteSpace(category))
+            
+            ObservableCollection<Recipe> recipeList;
+
+            if (UserManager.LoggedIn is AdminUser)
+            {
+                recipeList = ShowAllRecipes;
+            }
+            else
+            {
+                recipeList = UserManager.LoggedIn?.Recipes;
+            }
+            if (recipeList == null)
             {
                 return;
+            }
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                //recipeList.Clear();
+                //foreach (Recipe recipe in UserManager.LoggedIn.Recipes)
+                //{
+                //    recipeList.Add(recipe);
+                //}
+                //return;
+            }
+            //lista med recept i önskad kategori
+            List<Recipe> filtered = new List<Recipe>();
+
+            foreach (Recipe recipe in recipeList)
+            {
+                if (recipe.Category != null && recipe.Category.ToLower() == category.ToLower())
+                {
+                    filtered.Add(recipe);
+                }
+            }
+            recipeList?.Clear();
+            foreach (Recipe recipe in filtered)
+            {
+                recipeList?.Add(recipe);
             }
         }
 
