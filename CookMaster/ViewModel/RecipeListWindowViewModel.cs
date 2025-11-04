@@ -17,14 +17,22 @@ namespace CookMaster.ViewModel
 
         public RecipeManager RecipeManager { get; }
         public UserManager UserManager { get; }
-        private ObservableCollection<Recipe> _recipes;
-        public ObservableCollection<Recipe> VisibleRecipes
-        {
-            get
-            {
-                return _recipes;
-            }
-        }
+        public ObservableCollection<Recipe> AllRecipes { get; set; }
+        public ObservableCollection<Recipe> VisibleRecipes { get; set; }
+        
+        //private ObservableCollection<Recipe> _visibleRecipes;
+        //public ObservableCollection<Recipe> VisibleRecipes
+        //{
+        //    get
+        //    {
+        //        return _visibleRecipes;
+        //    }
+        //    set
+        //    {
+        //        _visibleRecipes = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
 
         public RecipeListWindowViewModel(UserManager userManager, RecipeManager recipeManager)
@@ -33,6 +41,8 @@ namespace CookMaster.ViewModel
             RecipeManager = recipeManager;
             //recipeManager = new RecipeManager(userManager);
             //MessageBox.Show(UserManager.LoggedIn);
+            AllRecipes = new ObservableCollection<Recipe>(RecipeManager.Recipes);
+            VisibleRecipes = new ObservableCollection<Recipe>(AllRecipes);
             
         }
         public ObservableCollection<Recipe> Recipes
@@ -60,6 +70,11 @@ namespace CookMaster.ViewModel
             {
                 _search = value;
                 OnPropertyChanged();
+                //if(string.IsNullOrWhiteSpace(_search))
+                //{
+                //    RecipeManager.CategoryFilter("");
+                //    OnPropertyChanged(nameof(Recipes));
+                //}
             }
         }
 
@@ -73,6 +88,7 @@ namespace CookMaster.ViewModel
         public RelayCommand InfoCommand => new RelayCommand(execute => Info());
         public RelayCommand SortCommand => new RelayCommand(execute => SortByNewest());
         public RelayCommand FilterCommand => new RelayCommand(execute => FilterList());
+        public RelayCommand ResetFilterCommand => new RelayCommand(execute => ResetFilter());
 
 
         //public void ViewAllRecipes()
@@ -117,7 +133,16 @@ namespace CookMaster.ViewModel
             }
             
             RecipeManager.RemoveRecipe(SelectedRecipe);
-            OnPropertyChanged(nameof(Recipes));
+            if(AllRecipes.Contains(SelectedRecipe))
+            {
+                AllRecipes.Remove(SelectedRecipe);
+            }
+            if(VisibleRecipes.Contains(SelectedRecipe))
+            {
+                VisibleRecipes.Remove(SelectedRecipe);
+            }
+
+            OnPropertyChanged(nameof(VisibleRecipes));
         }
         public void Info()
         {
@@ -126,14 +151,45 @@ namespace CookMaster.ViewModel
         
         public void SortByNewest()
         {
-            RecipeManager.SortByNewest();
-            OnPropertyChanged(nameof(Recipes));
-
+            if(VisibleRecipes == null || VisibleRecipes.Count == 0)
+            {
+                return;
+            }
+            List<Recipe> sortedList = new List<Recipe>(VisibleRecipes);
+            sortedList.Sort((x, y) => y.Date.CompareTo(x.Date)); //om 2 är nyare, lägg de före 1
+            VisibleRecipes.Clear();
+            foreach (var recipe in sortedList)
+            {
+                VisibleRecipes.Add(recipe);
+            }
         }
         public void FilterList()
         {
-            RecipeManager.CategoryFilter(Search);
-            OnPropertyChanged(nameof(Recipes));
+            if (string.IsNullOrWhiteSpace(Search))
+            {
+                VisibleRecipes.Clear();
+                foreach (var recipe in AllRecipes)
+                {
+                    VisibleRecipes.Add(recipe);
+                }
+                return;
+            }
+            string filter = Search.ToLower();
+            VisibleRecipes.Clear();
+            foreach (var recipe in AllRecipes)
+            {
+                if (recipe.Category != null && recipe.Category.ToLower().Contains(filter))
+                {
+                    VisibleRecipes.Add(recipe);
+                }
+            }
+            
+        }
+        public void ResetFilter()
+        {
+            Search = string.Empty;
+            FilterList();
+            
         }
 
         public void SignOut()
