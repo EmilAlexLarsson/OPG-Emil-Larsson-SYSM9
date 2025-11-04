@@ -151,39 +151,43 @@ namespace CookMaster.ViewModel
         
         public void SortByNewest()
         {
-            if(VisibleRecipes == null || VisibleRecipes.Count == 0)
-            {
-                return;
-            }
-            List<Recipe> sortedList = new List<Recipe>(VisibleRecipes);
-            sortedList.Sort((x, y) => y.Date.CompareTo(x.Date)); //om 2 är nyare, lägg de före 1
-            VisibleRecipes.Clear();
-            foreach (var recipe in sortedList)
-            {
-                VisibleRecipes.Add(recipe);
-            }
+            //if(VisibleRecipes == null || VisibleRecipes.Count == 0)
+            //{
+            //    return;
+            //}
+            //List<Recipe> sortedList = new List<Recipe>(VisibleRecipes);
+            //sortedList.Sort((x, y) => y.Date.CompareTo(x.Date)); //om 2 är nyare, lägg de före 1
+            //VisibleRecipes.Clear();
+            //foreach (var recipe in sortedList)
+            //{
+            //    VisibleRecipes.Add(recipe);
+            //}
+            VisibleRecipes = RecipeManager.SortByNewest(VisibleRecipes);
+            OnPropertyChanged(nameof(VisibleRecipes));
         }
         public void FilterList()
         {
-            if (string.IsNullOrWhiteSpace(Search))
-            {
-                VisibleRecipes.Clear();
-                foreach (var recipe in AllRecipes)
-                {
-                    VisibleRecipes.Add(recipe);
-                }
-                return;
-            }
-            string filter = Search.ToLower();
-            VisibleRecipes.Clear();
-            foreach (var recipe in AllRecipes)
-            {
-                if (recipe.Category != null && recipe.Category.ToLower().Contains(filter))
-                {
-                    VisibleRecipes.Add(recipe);
-                }
-            }
-            
+            //if (string.IsNullOrWhiteSpace(Search))
+            //{
+            //    VisibleRecipes.Clear();
+            //    foreach (var recipe in AllRecipes)
+            //    {
+            //        VisibleRecipes.Add(recipe);
+            //    }
+            //    return;
+            //}
+            //string filter = Search.ToLower();
+            //VisibleRecipes.Clear();
+            //foreach (var recipe in AllRecipes)
+            //{
+            //    if (recipe.Category != null && recipe.Category.ToLower().Contains(filter))
+            //    {
+            //        VisibleRecipes.Add(recipe);
+            //    }
+            //}
+            VisibleRecipes = RecipeManager.FilterRecipes(Search, AllRecipes);
+            OnPropertyChanged(nameof(VisibleRecipes));
+
         }
         public void ResetFilter()
         {

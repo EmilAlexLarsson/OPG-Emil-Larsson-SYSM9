@@ -273,33 +273,32 @@ namespace CookMaster.Manager
                 }
             }
         }
-        //public void SortByNewest()
-        //{
-        //    ObservableCollection<Recipe> recipeList;
-
-        //    if (UserManager.LoggedIn is AdminUser)
-        //    {
-        //        recipeList = ShowAllRecipes;
-        //    }
-        //    else
-        //    {
-        //        recipeList = UserManager.LoggedIn?.Recipes;
-        //    }
-        //    if (recipeList == null)
-        //    {
-        //        return;
-        //    }
-
-        //    List<Recipe> sortRecipes = new List<Recipe>(recipeList);
-        //    sortRecipes.Sort((recipe1, recipe2) => recipe2.Date.CompareTo(recipe1.Date)); //om 2 är nyare, lägg de före 1
-        //    recipeList.Clear();
-
-        //    foreach(Recipe recipe in sortRecipes)
-        //    {
-        //        recipeList.Add(recipe);
-        //    }
-
-        //}
+        public ObservableCollection<Recipe> SortByNewest(ObservableCollection<Recipe> visibileRecipes) 
+        {
+            if(visibileRecipes == null || visibileRecipes.Count <= 1)
+            {
+                return visibileRecipes;
+            }
+            List<Recipe> sortedList = new List<Recipe>(visibileRecipes);
+            sortedList.Sort((recipe1, recipe2) => recipe2.Date.CompareTo(recipe1.Date)); //om 2 är nyare, lägg de före 1
+            return new ObservableCollection<Recipe>(sortedList);
+        }
+        public ObservableCollection<Recipe> FilterRecipes (string category, ObservableCollection<Recipe> allRecipes)
+        {
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                return new ObservableCollection<Recipe>(allRecipes);
+            }
+            ObservableCollection<Recipe> filteredList = new ObservableCollection<Recipe>();
+            foreach (Recipe recipe in allRecipes)
+            {
+                if (recipe.Category != null && recipe.Category.ToLower().Contains(category.ToLower()))
+                {
+                    filteredList.Add(recipe);
+                }
+            }
+            return filteredList;
+        }
         //public void ResetRecipeList()
         //{
         //    ShowAllUserRecipe();
@@ -317,7 +316,7 @@ namespace CookMaster.Manager
         //        }
         //        UserManager.LoggedIn.Recipes = userRecipes;
         //    }
-            
+
         //}
         //public void CategoryFilter(string category)
         //{
