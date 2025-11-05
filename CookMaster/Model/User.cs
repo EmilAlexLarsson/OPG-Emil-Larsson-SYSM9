@@ -16,10 +16,7 @@ namespace CookMaster.Model
         public string Question { get; set; }
         public string QuestionAnswer { get; set; }
 
-        public virtual bool ViewAllRecipes()
-        {
-            return false;
-        }
+        
 
     }
 }

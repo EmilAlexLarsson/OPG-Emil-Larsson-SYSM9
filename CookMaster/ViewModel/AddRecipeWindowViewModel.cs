@@ -14,7 +14,7 @@ namespace CookMaster.ViewModel
     public class AddRecipeWindowViewModel : ViewModelBase
     {
         public UserManager UserManager { get; }
-        public RecipeManager RecipeManager { get; set; }
+        public RecipeManager RecipeManager { get; }
         public AddRecipeWindowViewModel(UserManager userManager, RecipeManager recipeManager)
         {
             UserManager = userManager;
@@ -66,66 +66,34 @@ namespace CookMaster.ViewModel
         
 
 
-        public RelayCommand AddRecipeCommand => new RelayCommand(execute => AddRecipe());
+        public RelayCommand AddRecipeCommand => new RelayCommand(execute => AddRecipe(), canExecute => !string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Ingredients) && !string.IsNullOrWhiteSpace(Instructions) && !string.IsNullOrWhiteSpace(Category));
         public void AddRecipe()
         {
-            if(RecipeManager.AddRecipe(Title, Ingredients, Instructions, Category, UserManager?.LoggedIn))
+            try
             {
-                RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
-                recipeListWindow.Show();
-                foreach (Window window in Application.Current.Windows)
+                if (RecipeManager.AddRecipe(Title, Ingredients, Instructions, Category, UserManager?.LoggedIn))
                 {
-                    if (window != recipeListWindow)
+                    RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
+                    recipeListWindow.Show();
+                    foreach (Window window in Application.Current.Windows)
                     {
-                        window.Close();
+                        if (window != recipeListWindow)
+                        {
+                            window.Close();
+                        }
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Fill in the empty sections or recipe title might already exist");
+                    return;
+                }
             }
-            else
+            catch (Exception e)
             {
-                MessageBox.Show("Fill in the empty sections or recipe title might already exist");
-                return;
+                MessageBox.Show("Error while adding recipe: " + e.Message);
             }
-            //if(!string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Ingredients) && !string.IsNullOrWhiteSpace(Instructions) && !string.IsNullOrWhiteSpace(Category) )
-            //{
-            //    RecipeManager.AddRecipe(new Recipe
-            //    {
-            //       Title = Title,
-            //       Ingredients = Ingredients, 
-            //       Instructions = Instructions,
-            //       Category = Category,
-            //       Date = DateTime.Now,
-            //       CreatedBy = UserManager.LoggedIn
-
-            //    });
-            //    RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
-            //    recipeListWindow.Show();
-            //    foreach (Window window in Application.Current.Windows)
-            //    {
-            //        if (window != recipeListWindow)
-            //        {
-            //            window.Close();
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Fill in the empty sections");
-            //    return;
-            //}
-            //Om RecipeListWindow stängs innan AddRecipeWindow stängs så kraschar det
-
-            //if( Application.Current.Windows.Count > 1)
-            //{
-            //    Application.Current.Windows[1].Close();
-            //}
-            //else
-            //{
-            //    RecipeListWindow recipeListWindow = new RecipeListWindow();
-            //    recipeListWindow.Show();
-            //    Application.Current.Windows[0].Close();
-
-            //}
+            
         }
     }
 }

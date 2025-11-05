@@ -15,11 +15,11 @@ namespace CookMaster.ViewModel
     public class RecipeDetailWindowViewModel :ViewModelBase
     {
         public UserManager UserManager { get; }
-        public RecipeManager RecipeManager { get; set; }
+        public RecipeManager RecipeManager { get; }
         public ObservableCollection<Recipe>? Recipes { get; }
 
-        private Recipe _selectedRecipe;
-        public Recipe SelectedRecipe
+        private Recipe? _selectedRecipe;
+        public Recipe? SelectedRecipe
         {
             get { return _selectedRecipe; }
             set
@@ -122,65 +122,79 @@ namespace CookMaster.ViewModel
         //Kunna kopiera recept, alltså lägga till ett nytt istället för att ändra på samma, bool?
         public void SaveRecipe()
         {
-            if (IsCopy)
+            try
             {
-                SelectedRecipe.Date = DateTime.Now;
-                RecipeManager?.Recipes?.Add(SelectedRecipe);
-                MessageBox.Show("Recipe copied and saved!");
-
-            }
-            else
-            {
-                SelectedRecipe.Title = Title;
-                SelectedRecipe.Ingredients = Ingredients;
-                SelectedRecipe.Instructions = Instructions;
-                SelectedRecipe.Category = Category;
-                SelectedRecipe.Date = DateTime.Now;
-                MessageBox.Show("Recipe saved!");
-            }
-            SelectedRecipe.Date = DateTime.Now;
-            RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
-            recipeListWindow.Show();
-            foreach (Window window in Application.Current.Windows)
-            {
-                if (window != recipeListWindow)
+                if (RecipeManager == null)
                 {
-                    window.Close(); //kolla på annan variant
+                    MessageBox.Show("Cannot find RecipeManager");
+                    return;
+                }
+                if (SelectedRecipe == null)
+                {
+                    MessageBox.Show("No recipe selected to save.");
+                    return;
+                }
+
+                if (IsCopy)
+                {
+                    SelectedRecipe.Date = DateTime.Now;
+                    RecipeManager.Recipes?.Add(SelectedRecipe);
+                    MessageBox.Show("Recipe copied and saved!");
+                }
+                else
+                {
+                    SelectedRecipe.Title = Title;
+                    SelectedRecipe.Ingredients = Ingredients;
+                    SelectedRecipe.Instructions = Instructions;
+                    SelectedRecipe.Category = Category;
+                    SelectedRecipe.Date = DateTime.Now;
+                    MessageBox.Show("Recipe saved!");
+                }
+                SelectedRecipe.Date = DateTime.Now;
+                RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
+                recipeListWindow.Show();
+                foreach (Window window in Application.Current.Windows)
+                {
+                    if (window != recipeListWindow)
+                    {
+                        window.Close();
+                    }
                 }
             }
-            //RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
-            //if (Application.Current.Windows.Count < 2)
-            //{
-
-            //}
-            //else
-            //{
-
-            //    foreach (Window window in Application.Current.Windows)
-            //    {
-            //        if (window != recipeListWindow)
-            //        {
-            //            window.Close();
-            //        }
-            //    }
-            //}
+            catch (Exception e)
+            {
+                MessageBox.Show("Error while saving recipe: " + e.Message);
+            }
         }
-        //window is RecipeListWindow
+        
         public void CopyRecipe()
         {
-           
-            IsCopy = true;
-            Edit = true;
-
-            SelectedRecipe = new Recipe
+            try
             {
-                Title = SelectedRecipe.Title + " (Copied recipe!)",
-                Ingredients = SelectedRecipe.Ingredients,
-                Instructions = SelectedRecipe.Instructions,
-                Category = SelectedRecipe.Category,
-                Date = DateTime.Now,
-                CreatedBy = UserManager.LoggedIn
-            };
+                if (SelectedRecipe == null)
+                {
+                    MessageBox.Show("No recipe selected to copy.");
+                    return;
+                }
+
+                IsCopy = true;
+                Edit = true;
+
+                SelectedRecipe = new Recipe
+                {
+                    Title = SelectedRecipe.Title + " (Copied recipe!)",
+                    Ingredients = SelectedRecipe.Ingredients,
+                    Instructions = SelectedRecipe.Instructions,
+                    Category = SelectedRecipe.Category,
+                    Date = DateTime.Now,
+                    CreatedBy = UserManager.LoggedIn
+                };
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error while copying recipe: " + e.Message);
+            }
+
 
         }
 

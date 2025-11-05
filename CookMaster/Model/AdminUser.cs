@@ -8,13 +8,6 @@ namespace CookMaster.Model
 {
     public class AdminUser : User
     {
-        //public void RemoveAnyRecipe()
-        //{
-
-        //}
-        //public override bool ViewAllRecipes()
-        //{
-        //    return true;
-        //}
+        
     }
 }

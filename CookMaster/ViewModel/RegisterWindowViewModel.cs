@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace CookMaster.ViewModel
 {
@@ -20,12 +21,9 @@ namespace CookMaster.ViewModel
         public RegisterWindowViewModel(UserManager userManager)
         {
             UserManager = userManager;
-            Countries = UserManager.Countries;
-            SecurityQuestion = UserManager.SecurityQuestion;
-            //for (int i = 0; i < Application.Current.Windows.Count; i++)
-            //{
-            //    MessageBox.Show($"{i}");
-            //}
+            Countries = UserManager?.Countries;
+            SecurityQuestion = UserManager?.SecurityQuestion;
+
         }
         private string _username;
         public string Username
@@ -89,38 +87,40 @@ namespace CookMaster.ViewModel
                 OnPropertyChanged();
             }
         }
-        public RelayCommand CreateUserCommand => new RelayCommand(execute => CreateUser());
+        public RelayCommand CreateUserCommand => new RelayCommand(execute => CreateUser(), canExecute => !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password) && !string.IsNullOrWhiteSpace(ConfirmPassword) && !string.IsNullOrWhiteSpace(SelectedCountry) && !string.IsNullOrWhiteSpace(SelectedQuestion) && !string.IsNullOrWhiteSpace(QuestionAnswer));
         public void CreateUser()
         {
-            if (UserManager.Register(Username, Password, ConfirmPassword, SelectedCountry, SelectedQuestion,QuestionAnswer, out string error))
+            try
             {
-                MessageBox.Show("New user created!");
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
-                foreach (Window window in Application.Current.Windows)
+                if (UserManager == null)
                 {
-                    if (window != mainWindow)
+                    MessageBox.Show("Cannot find UserManager.");
+                    return;
+                }
+                if (UserManager.Register(Username, Password, ConfirmPassword, SelectedCountry, SelectedQuestion, QuestionAnswer, out string error))
+                {
+                    MessageBox.Show("New user created!");
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    foreach (Window window in Application.Current.Windows)
                     {
-                        window.Close(); 
+                        if (window != mainWindow)
+                        {
+                            window.Close();
+                        }
                     }
                 }
+                else
+                {
+                    MessageBox.Show(error);
+                }
             }
-            else
+            catch (Exception e)
             {
-                MessageBox.Show(error);
+                MessageBox.Show("Error while creating user: " + e.Message);
             }
-            //MainWindow mainWindow = new MainWindow();
-            //var result = mainWindow.ShowDialog();
 
-            //if(result != true)
-            //{
-            //    Application.Current.Shutdown();
-            //}
 
-            //MainWindow mainWindow = new MainWindow();
-            //mainWindow.Show();
-            //Application.Current.Windows[0].Close();
-            //Stänger första fönstert i listan (index 0), alltså registerwindow, då det är det ända öppna fönstert
         }
     }
 }

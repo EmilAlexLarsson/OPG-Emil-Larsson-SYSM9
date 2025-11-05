@@ -18,10 +18,7 @@ namespace CookMaster.ViewModel
         {
             UserManager = userManager;
 
-            //for (int i = 0; i < Application.Current.Windows.Count; i++)
-            //{
-            //    MessageBox.Show($"{i}");
-            //}
+            
         }
 
         private string _username;
@@ -50,30 +47,37 @@ namespace CookMaster.ViewModel
 
         public void LogIn()
         {
-            //if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
-            //{
-            //    MessageBox.Show("Username or password can't be empty");
-            //    return;
-            //}
-
-            
-            if (UserManager.LogIn(Username, Password, out string error))
+            try
             {
-                RecipeManager recipeManager = new RecipeManager(UserManager);
-                RecipeListWindow recipeListWindow = new RecipeListWindow(recipeManager);
-                recipeListWindow.Show();
-                foreach (Window window in Application.Current.Windows)
+                if (UserManager == null)
                 {
-                    if (window != recipeListWindow)
+                    MessageBox.Show("Cannot find UserManager");
+                    return;
+                }
+
+                if (UserManager.LogIn(Username, Password, out string error))
+                {
+                    RecipeManager recipeManager = new RecipeManager(UserManager);
+                    RecipeListWindow recipeListWindow = new RecipeListWindow(recipeManager);
+                    recipeListWindow.Show();
+                    foreach (Window window in Application.Current.Windows)
                     {
-                        window.Close();
+                        if (window != recipeListWindow)
+                        {
+                            window.Close();
+                        }
                     }
                 }
+                else
+                {
+                    MessageBox.Show(error);
+                }
             }
-            else
+            catch (Exception e)
             {
-                MessageBox.Show(error);
+                MessageBox.Show("Error when logging in" + e.Message);
             }
+
         }
         private bool CanLogIn()
         {

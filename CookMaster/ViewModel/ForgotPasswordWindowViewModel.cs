@@ -74,33 +74,38 @@ namespace CookMaster.ViewModel
                 OnPropertyChanged();
             }
         }
-        public void GetQuestion()
-        {
-            Question = UserManager.Question(Username);
-
-        }
-        public RelayCommand ResetPasswordCommand => new RelayCommand(execute => ResetPassword(), canExecute => NewPassword != null && ConfirmPassword != null);
+        
+        public RelayCommand ResetPasswordCommand => new RelayCommand(execute => ResetPassword(), canExecute => NewPassword != null && ConfirmPassword != null && QuestionAnswer != null);
         public bool ResetPassword()
         {
-            if(UserManager.ForgotPassword(Username, QuestionAnswer, NewPassword, ConfirmPassword, out string error))
+            try
             {
-                MessageBox.Show("Password has been updated!");
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
-                foreach (Window window in Application.Current.Windows)
+                if (UserManager.ForgotPassword(Username, QuestionAnswer, NewPassword, ConfirmPassword, out string error))
                 {
-                    if (window != mainWindow)
+                    MessageBox.Show("Password has been updated!");
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    foreach (Window window in Application.Current.Windows)
                     {
-                        window.Close();
+                        if (window != mainWindow)
+                        {
+                            window.Close();
+                        }
                     }
+                    return true;
                 }
-                return true;
+                else
+                {
+                    MessageBox.Show(error);
+                    return false;
+                }
             }
-            else
+            catch (Exception e)
             {
-                MessageBox.Show(error); 
+                MessageBox.Show("Error while trying to reset password: " + e.Message);
                 return false;
             }
+            
         }
     }
 }

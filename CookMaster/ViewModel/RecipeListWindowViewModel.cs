@@ -20,28 +20,15 @@ namespace CookMaster.ViewModel
         public ObservableCollection<Recipe> AllRecipes { get; set; }
         public ObservableCollection<Recipe> VisibleRecipes { get; set; }
         
-        //private ObservableCollection<Recipe> _visibleRecipes;
-        //public ObservableCollection<Recipe> VisibleRecipes
-        //{
-        //    get
-        //    {
-        //        return _visibleRecipes;
-        //    }
-        //    set
-        //    {
-        //        _visibleRecipes = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
+        
 
 
         public RecipeListWindowViewModel(UserManager userManager, RecipeManager recipeManager)
         {
             UserManager = userManager;
             RecipeManager = recipeManager;
-            //recipeManager = new RecipeManager(userManager);
-            //MessageBox.Show(UserManager.LoggedIn);
-            AllRecipes = new ObservableCollection<Recipe>(RecipeManager.Recipes);
+            
+            AllRecipes = new ObservableCollection<Recipe>(RecipeManager?.Recipes);
             VisibleRecipes = new ObservableCollection<Recipe>(AllRecipes);
             
         }
@@ -49,8 +36,8 @@ namespace CookMaster.ViewModel
         {
             get { return RecipeManager.Recipes; }
         }
-        private Recipe _selectedRecipe;
-        public Recipe SelectedRecipe
+        private Recipe? _selectedRecipe;
+        public Recipe? SelectedRecipe
         {
             get { return _selectedRecipe; }
             set
@@ -70,16 +57,9 @@ namespace CookMaster.ViewModel
             {
                 _search = value;
                 OnPropertyChanged();
-                //if(string.IsNullOrWhiteSpace(_search))
-                //{
-                //    RecipeManager.CategoryFilter("");
-                //    OnPropertyChanged(nameof(Recipes));
-                //}
+                
             }
         }
-
-        
-        //public RelayCommand LogInCommand => new RelayCommand(execute => );
         public RelayCommand OpenAddRecipeCommand => new RelayCommand(execute => AddRecipe());
         public RelayCommand SignOutCommand => new RelayCommand(execute => SignOut());
         public RelayCommand RemoveCommand => new RelayCommand(execute => RemoveRecipe());
@@ -91,14 +71,7 @@ namespace CookMaster.ViewModel
         public RelayCommand ResetFilterCommand => new RelayCommand(execute => ResetFilter());
 
 
-        //public void ViewAllRecipes()
-        //{
-        //    if(UserManager.LoggedIn is AdminUser)
-        //    {
-        //        //adminuser kan se alla recepten
-
-        //    }
-        //}
+       
         public void AddRecipe()
         {
 
@@ -117,12 +90,12 @@ namespace CookMaster.ViewModel
             if (SelectedRecipe == null)
             {
                 MessageBox.Show("You have to select a recipe to see details!");
+                return;
             }
-            else
-            {
-                RecipeDetailWindow recipeDetailWindow = new RecipeDetailWindow(RecipeManager, SelectedRecipe);
-                recipeDetailWindow.ShowDialog();
-            }
+            
+            RecipeDetailWindow recipeDetailWindow = new RecipeDetailWindow(RecipeManager, SelectedRecipe);
+            recipeDetailWindow.ShowDialog();
+            
         }
         public void RemoveRecipe()
         {
@@ -131,18 +104,24 @@ namespace CookMaster.ViewModel
                 MessageBox.Show("You have to select a recipe to remove!");
                 return;
             }
-            
-            RecipeManager.RemoveRecipe(SelectedRecipe);
-            if(AllRecipes.Contains(SelectedRecipe))
+            try
             {
-                AllRecipes.Remove(SelectedRecipe);
-            }
-            if(VisibleRecipes.Contains(SelectedRecipe))
-            {
-                VisibleRecipes.Remove(SelectedRecipe);
-            }
+                RecipeManager?.RemoveRecipe(SelectedRecipe);
+                if (AllRecipes.Contains(SelectedRecipe))
+                {
+                    AllRecipes.Remove(SelectedRecipe);
+                }
+                if (VisibleRecipes.Contains(SelectedRecipe))
+                {
+                    VisibleRecipes.Remove(SelectedRecipe);
+                }
 
-            OnPropertyChanged(nameof(VisibleRecipes));
+                OnPropertyChanged(nameof(VisibleRecipes));
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error while removing recipe: " + e.Message);
+            }
         }
         public void Info()
         {
@@ -151,40 +130,13 @@ namespace CookMaster.ViewModel
         
         public void SortByNewest()
         {
-            //if(VisibleRecipes == null || VisibleRecipes.Count == 0)
-            //{
-            //    return;
-            //}
-            //List<Recipe> sortedList = new List<Recipe>(VisibleRecipes);
-            //sortedList.Sort((x, y) => y.Date.CompareTo(x.Date)); //om 2 är nyare, lägg de före 1
-            //VisibleRecipes.Clear();
-            //foreach (var recipe in sortedList)
-            //{
-            //    VisibleRecipes.Add(recipe);
-            //}
+            
             VisibleRecipes = RecipeManager.SortByNewest(VisibleRecipes);
             OnPropertyChanged(nameof(VisibleRecipes));
         }
         public void FilterList()
         {
-            //if (string.IsNullOrWhiteSpace(Search))
-            //{
-            //    VisibleRecipes.Clear();
-            //    foreach (var recipe in AllRecipes)
-            //    {
-            //        VisibleRecipes.Add(recipe);
-            //    }
-            //    return;
-            //}
-            //string filter = Search.ToLower();
-            //VisibleRecipes.Clear();
-            //foreach (var recipe in AllRecipes)
-            //{
-            //    if (recipe.Category != null && recipe.Category.ToLower().Contains(filter))
-            //    {
-            //        VisibleRecipes.Add(recipe);
-            //    }
-            //}
+            
             VisibleRecipes = RecipeManager.FilterRecipes(Search, AllRecipes);
             OnPropertyChanged(nameof(VisibleRecipes));
 
@@ -198,17 +150,24 @@ namespace CookMaster.ViewModel
 
         public void SignOut()
         {
-            UserManager.LoggedIn = null;
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-            foreach (Window window in Application.Current.Windows)
+            try
             {
-                if (window != mainWindow)
+                UserManager.LoggedIn = null;
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                foreach (Window window in Application.Current.Windows)
                 {
-                    window.Close();
+                    if (window != mainWindow)
+                    {
+                        window.Close();
+                    }
                 }
             }
-            
+            catch (Exception e)
+            {
+                MessageBox.Show("Error while signing out: " + e.Message);
+            }
+
         }
     }
 }
