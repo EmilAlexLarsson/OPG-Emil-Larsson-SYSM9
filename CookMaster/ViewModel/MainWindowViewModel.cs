@@ -62,7 +62,13 @@ namespace CookMaster.ViewModel
                 RecipeManager recipeManager = new RecipeManager(UserManager);
                 RecipeListWindow recipeListWindow = new RecipeListWindow(recipeManager);
                 recipeListWindow.Show();
-                Application.Current.Windows[0].Close();
+                foreach (Window window in Application.Current.Windows)
+                {
+                    if (window != recipeListWindow)
+                    {
+                        window.Close();
+                    }
+                }
             }
             else
             {
@@ -77,16 +83,15 @@ namespace CookMaster.ViewModel
         {
             
             RegisterWindow registerWindow = new RegisterWindow();
-            registerWindow.Show();
-            Application.Current.Windows[0].Close();
-            //Stänger fönsta fönstert i listan, alltså mainwidow, då det öppnades först
+            registerWindow.ShowDialog();
+            
 
         }
         public void OpenForgotPassword()
         {
             ForgotPasswordWindow forgotPasswordWindow = new ForgotPasswordWindow();
-            forgotPasswordWindow.Show();
-            Application.Current.Windows[0].Close(); //ev. ta bort
+            forgotPasswordWindow.ShowDialog();
+            
         }
     }
 }

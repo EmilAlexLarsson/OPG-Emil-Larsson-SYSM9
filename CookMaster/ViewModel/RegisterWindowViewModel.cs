@@ -1,6 +1,7 @@
 ﻿using CookMaster.Manager;
 using CookMaster.Model;
 using CookMaster.MVVM;
+using CookMaster.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,7 +97,13 @@ namespace CookMaster.ViewModel
                 MessageBox.Show("New user created!");
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
-                Application.Current.Windows[0].Close();
+                foreach (Window window in Application.Current.Windows)
+                {
+                    if (window != mainWindow)
+                    {
+                        window.Close(); 
+                    }
+                }
             }
             else
             {

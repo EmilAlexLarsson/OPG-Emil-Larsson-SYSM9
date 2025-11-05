@@ -69,7 +69,7 @@ namespace CookMaster.ViewModel
         public RelayCommand AddRecipeCommand => new RelayCommand(execute => AddRecipe());
         public void AddRecipe()
         {
-            if(RecipeManager.AddRecipe(Title, Ingredients, Instructions, Category, UserManager.LoggedIn))
+            if(RecipeManager.AddRecipe(Title, Ingredients, Instructions, Category, UserManager?.LoggedIn))
             {
                 RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
                 recipeListWindow.Show();

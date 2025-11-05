@@ -24,20 +24,7 @@ namespace CookMaster.Manager
                     return ShowAllRecipes;
                 }
                 return UserManager.LoggedIn?.Recipes;
-                //if(UserManager.LoggedIn is AdminUser)
-                //{
-                //    var showAllRecipes = new ObservableCollection<Recipe>();
-
-                    //    foreach(var user in UserManager.Users)
-                    //    {
-                    //        foreach(Recipe recipe in user.Recipes)
-                    //        {
-                    //            showAllRecipes.Add(recipe);
-                    //        }
-                    //    }
-                    //    return showAllRecipes;
-                    //}
-                    //return UserManager.LoggedIn?.Recipes; 
+                
             }
         }
 
@@ -110,18 +97,6 @@ namespace CookMaster.Manager
             {
                 return false;
             }
-            //if (Recipes == null)
-            //{
-            //    return false;
-            //}
-            //foreach (Recipe existingRecipe in Recipes)
-            //{
-            //    if(existingRecipe.Title == title)
-            //    {
-            //        return false;
-            //    }
-            //}
-
             Recipe newRecipe = new Recipe
             {
                 Title = title,
@@ -131,9 +106,6 @@ namespace CookMaster.Manager
                 Date = DateTime.Now,
                 CreatedBy = createdBy
             };
-
-            //Recipes?.Add(newRecipe);
-            //return true;
 
             if (UserManager.LoggedIn is AdminUser admin)
             {
@@ -149,7 +121,6 @@ namespace CookMaster.Manager
                     }
                 }
                 admin.Recipes.Add (newRecipe);
-                //return true;
             }
             else if (UserManager.LoggedIn != null)
             {
@@ -190,28 +161,7 @@ namespace CookMaster.Manager
 
         public void RemoveRecipe(Recipe recipe)
         {
-            //if (recipe == null)
-            //{
-            //    return;
-            //}
-            //if(UserManager.LoggedIn is AdminUser)
-            //{
-            //    //Recipes.Remove(recipe);
-            //    //showAllRecipes.Remove(recipe);
-
-            //    foreach (var user in UserManager.Users)
-            //    {
-            //        if (user.Recipes.Contains(recipe))
-            //        {
-            //            user.Recipes.Remove(recipe);
-            //            //showAllRecipes.Remove(recipe);
-            //            return;
-            //        }
-            //    }
-            //    return;
-            //}
-            //Recipes?.Remove(recipe);
-            //UserManager.LoggedIn.Recipes.Remove(recipe);
+            
             if (recipe == null)
             {
                 return;
@@ -230,16 +180,7 @@ namespace CookMaster.Manager
             }
             ShowAllUserRecipe();
         }
-        //public ObservableCollection<Recipe> GetAllRecipes()
-        //{
-            
-        //        if (Recipes == null)
-        //        {
-        //            return null;
-        //        }
-        //        return new ObservableCollection<Recipe>(Recipes);
-            
-        //}
+        
         public Recipe CopyRecipe(Recipe recipe)
         {
             if (recipe == null)
@@ -299,116 +240,19 @@ namespace CookMaster.Manager
             }
             return filteredList;
         }
-        //public void ResetRecipeList()
+        
+        //public void UpdateRecipe(Recipe originalRecipe, Recipe updatedRecipe)
         //{
-        //    ShowAllUserRecipe();
-
-        //    if (UserManager.LoggedIn != null && !(UserManager.LoggedIn is AdminUser))
-        //    {
-        //        ObservableCollection<Recipe> userRecipes = new ObservableCollection<Recipe>();
-
-        //        foreach (Recipe recipe in ShowAllRecipes)
-        //        {
-        //            if (recipe.CreatedBy != null && recipe.CreatedBy == UserManager.LoggedIn)
-        //            {
-        //                userRecipes.Add(recipe);
-        //            }
-        //        }
-        //        UserManager.LoggedIn.Recipes = userRecipes;
-        //    }
-
-        //}
-        //public void CategoryFilter(string category)
-        //{
-        //    if(string.IsNullOrWhiteSpace(category))
-        //    {
-        //        ResetRecipeList();
-        //        return;
-        //    }
-
-        //    ObservableCollection<Recipe> recipeList;
-        //    if (UserManager.LoggedIn is AdminUser)
-        //    {
-        //        recipeList = ShowAllRecipes;
-        //    }
-        //    else
-        //    {
-        //        recipeList = UserManager.LoggedIn?.Recipes;
-        //    }
-
-        //    if (recipeList == null)
+        //    if (originalRecipe == null || updatedRecipe == null)
         //    {
         //        return;
         //    }
-
-        //    ObservableCollection<Recipe> filteredRecipes = new ObservableCollection<Recipe>();
-        //    foreach (Recipe recipe in recipeList)
-        //    {
-        //        if (recipe.Category != null && recipe.Category.Equals(category, StringComparison.OrdinalIgnoreCase))
-        //        {
-        //            filteredRecipes.Add(recipe);
-        //        }
-        //    }
-        //    recipeList.Clear();
-        //    foreach (Recipe recipe in filteredRecipes)
-        //    {
-        //        recipeList.Add(recipe);
-        //    }
-        //} 
-        //public void resetFilters()
-        //{
-        //    ResetRecipeList();
+        //    originalRecipe.Ingredients = updatedRecipe.Ingredients;
+        //    originalRecipe.Instructions = updatedRecipe.Instructions;
+        //    originalRecipe.Category = updatedRecipe.Category;
+        //    originalRecipe.Date = DateTime.Now;
         //}
-        public void UpdateRecipe(Recipe originalRecipe, Recipe updatedRecipe)
-        {
-            if (originalRecipe == null || updatedRecipe == null)
-            {
-                return;
-            }
-            originalRecipe.Ingredients = updatedRecipe.Ingredients;
-            originalRecipe.Instructions = updatedRecipe.Instructions;
-            originalRecipe.Category = updatedRecipe.Category;
-            originalRecipe.Date = DateTime.Now;
-        }
 
-        //public void UpdateRecipe (Recipe updateRecipe)
-        //{
-        //    if (updateRecipe == null)
-        //    {
-        //        return;
-        //    }
-        //    if(UserManager.LoggedIn is AdminUser)
-        //    {
-        //        foreach (var user in UserManager.Users)
-        //        {
-        //            foreach(var recipe in user.Recipes)
-        //            {
-        //                if(recipe.Title == updateRecipe.Title)
-        //                {
-        //                    recipe.Ingredients = updateRecipe.Ingredients;
-        //                    recipe.Instructions = updateRecipe.Instructions;
-        //                    recipe.Category = updateRecipe.Category;
-        //                    recipe.Date = DateTime.Now;
-        //                    return;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        foreach(var recipe in UserManager.LoggedIn.Recipes)
-        //        {
-        //            if (recipe.Title == updateRecipe.Title)
-        //            {
-        //                recipe.Ingredients = updateRecipe.Ingredients;
-        //                recipe.Instructions = updateRecipe.Instructions;
-        //                recipe.Category = updateRecipe.Category;
-        //                recipe.Date = DateTime.Now;
-        //                return;
-        //            }
-        //        }
-        //    }
-        //}
 
     }
 }

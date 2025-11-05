@@ -103,13 +103,13 @@ namespace CookMaster.ViewModel
         {
 
             AddRecipeWindow addRecipeWindow = new AddRecipeWindow(RecipeManager);
-            addRecipeWindow.Show();
+            addRecipeWindow.ShowDialog();
         }
 
         public void OpenUser()
         {
             UserDetailsWindow userDetailsWindow = new UserDetailsWindow(RecipeManager);
-            userDetailsWindow.Show();
+            userDetailsWindow.ShowDialog();
         }
 
         public void Details ()
@@ -121,7 +121,7 @@ namespace CookMaster.ViewModel
             else
             {
                 RecipeDetailWindow recipeDetailWindow = new RecipeDetailWindow(RecipeManager, SelectedRecipe);
-                recipeDetailWindow.Show();
+                recipeDetailWindow.ShowDialog();
             }
         }
         public void RemoveRecipe()
