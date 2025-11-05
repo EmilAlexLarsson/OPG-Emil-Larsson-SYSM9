@@ -27,14 +27,14 @@ namespace CookMaster.ViewModel
         {
             UserManager = userManager;
             RecipeManager = recipeManager;
-            
-            AllRecipes = new ObservableCollection<Recipe>(RecipeManager?.Recipes);
-            VisibleRecipes = new ObservableCollection<Recipe>(AllRecipes);
-            
+
+            AllRecipes = RecipeManager?.Recipes ?? new ObservableCollection<Recipe>();
+            VisibleRecipes = AllRecipes;
+
         }
         public ObservableCollection<Recipe> Recipes
         {
-            get { return RecipeManager.Recipes; }
+            get { return RecipeManager?.Recipes; }
         }
         private Recipe? _selectedRecipe;
         public Recipe? SelectedRecipe
@@ -75,13 +75,13 @@ namespace CookMaster.ViewModel
         public void AddRecipe()
         {
 
-            AddRecipeWindow addRecipeWindow = new AddRecipeWindow(RecipeManager);
+            AddRecipeWindow addRecipeWindow = new AddRecipeWindow();
             addRecipeWindow.ShowDialog();
         }
 
         public void OpenUser()
         {
-            UserDetailsWindow userDetailsWindow = new UserDetailsWindow(RecipeManager);
+            UserDetailsWindow userDetailsWindow = new UserDetailsWindow();
             userDetailsWindow.ShowDialog();
         }
 
@@ -92,8 +92,8 @@ namespace CookMaster.ViewModel
                 MessageBox.Show("You have to select a recipe to see details!");
                 return;
             }
-            
-            RecipeDetailWindow recipeDetailWindow = new RecipeDetailWindow(RecipeManager, SelectedRecipe);
+
+            RecipeDetailWindow recipeDetailWindow = new RecipeDetailWindow(SelectedRecipe);
             recipeDetailWindow.ShowDialog();
             
         }

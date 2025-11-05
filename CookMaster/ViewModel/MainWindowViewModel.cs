@@ -16,9 +16,9 @@ namespace CookMaster.ViewModel
         public UserManager UserManager { get; }
         public MainWindowViewModel(UserManager userManager)
         {
-            UserManager = userManager;
+            UserManager = (UserManager)Application.Current.Resources["UserManager"];
 
-            
+
         }
 
         private string _username;
@@ -57,8 +57,8 @@ namespace CookMaster.ViewModel
 
                 if (UserManager.LogIn(Username, Password, out string error))
                 {
-                    RecipeManager recipeManager = new RecipeManager(UserManager);
-                    RecipeListWindow recipeListWindow = new RecipeListWindow(recipeManager);
+                    //RecipeManager recipeManager = new RecipeManager(UserManager);
+                    RecipeListWindow recipeListWindow = new RecipeListWindow();
                     recipeListWindow.Show();
                     foreach (Window window in Application.Current.Windows)
                     {

@@ -17,8 +17,8 @@ namespace CookMaster.ViewModel
         public RecipeManager RecipeManager { get; }
         public AddRecipeWindowViewModel(UserManager userManager, RecipeManager recipeManager)
         {
-            UserManager = userManager;
-            
+            UserManager = (UserManager)Application.Current.Resources["UserManager"];
+
             RecipeManager = recipeManager;
         }
         private string _title;
@@ -73,7 +73,7 @@ namespace CookMaster.ViewModel
             {
                 if (RecipeManager.AddRecipe(Title, Ingredients, Instructions, Category, UserManager?.LoggedIn))
                 {
-                    RecipeListWindow recipeListWindow = new RecipeListWindow(RecipeManager);
+                    RecipeListWindow recipeListWindow = new RecipeListWindow();
                     recipeListWindow.Show();
                     foreach (Window window in Application.Current.Windows)
                     {

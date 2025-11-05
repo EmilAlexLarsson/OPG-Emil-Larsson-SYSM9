@@ -21,12 +21,12 @@ namespace CookMaster.View
     /// </summary>
     public partial class UserDetailsWindow : Window
     {
-        public UserDetailsWindow(RecipeManager recipeManager)
+        public UserDetailsWindow()
         {
             InitializeComponent();
             UserManager userManager = (UserManager)Application.Current.Resources["UserManager"];
-            //RecipeManager recipeManager = (RecipeManager)Application.Current.Resources["RecipeManager"];
-            UserDetailsWindowViewModel userDetailsWindowViewModel = new UserDetailsWindowViewModel(userManager,recipeManager);
+            RecipeManager recipeManager = (RecipeManager)Application.Current.Resources["RecipeManager"];
+            UserDetailsWindowViewModel userDetailsWindowViewModel = new UserDetailsWindowViewModel(userManager, recipeManager);
             DataContext = userDetailsWindowViewModel;
         }
     }

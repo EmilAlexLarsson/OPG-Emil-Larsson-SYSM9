@@ -29,10 +29,15 @@ namespace CookMaster.Manager
         }
 
 
-        public RecipeManager(UserManager userManager)
+        public RecipeManager()
         {
-            UserManager = userManager;
-            
+            UserManager = (UserManager)Application.Current.Resources["UserManager"];
+            if (UserManager == null)
+            {
+                MessageBox.Show("Cannot find UserManager");
+                return;
+            }
+
             User? defaultUser = null;
             foreach(User user in UserManager.Users)
             {
@@ -282,6 +287,7 @@ namespace CookMaster.Manager
                 return new ObservableCollection<Recipe>();
             }
         }
-     
+        
+
     }
 }

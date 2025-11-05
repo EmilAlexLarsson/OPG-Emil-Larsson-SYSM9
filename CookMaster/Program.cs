@@ -15,11 +15,7 @@ namespace CookMaster
             var app = new App();
             app.InitializeComponent();
             app.Run();
-            //    UserManager userManager = new UserManager();
-            //    RecipeManager recipe = new RecipeManager(userManager);
-            //    //recipe.DefaultRecipes();
-
-            //    recipe.testUser();
+            
         }
     }
 }
