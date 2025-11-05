@@ -13,6 +13,7 @@ namespace CookMaster.Manager
 {
     public class UserManager : ViewModelBase
     {
+        private readonly Random random = new Random();
         private ObservableCollection<User> _users;
         public ObservableCollection <User> Users
         {
@@ -35,7 +36,7 @@ namespace CookMaster.Manager
             }
         }
         
-        public List<string> Countries { get; set; } = new List<string>
+        public List<string> Countries { get;} = new List<string>
         {
             "Sweden",
             "Norway",
@@ -43,13 +44,13 @@ namespace CookMaster.Manager
             "Finland",
             "Iceland"
         };
-        public List<string> SecurityQuestion { get; set; } = new List<string>
+        public List<string> SecurityQuestion { get; } = new List<string>
         {
             "What is your favorite color?",
             "What is your Lucky number?",
             "What is your favorite sports team?"
         };
-        private Random random = new Random();
+        
 
         public UserManager()
         {
@@ -74,195 +75,249 @@ namespace CookMaster.Manager
         public bool LogIn(string username, string password, out string error)
         {
             error = string.Empty;
-
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            try
             {
-                error = "Username or password cannot be empty";
+                if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+                {
+                    error = "Username or password cannot be empty";
+                    return false;
+                }
+                var user = FindUser(username);
+                if (user == null)
+                {
+                    error = "User does not exist!";
+                    return false;
+                }
+                if (user.Password != password)
+                {
+                    error = "Wrong password!";
+                    return false;
+                }
+
+                string verificationCode = random.Next(100000, 999999).ToString();
+                MessageBox.Show("Your 2FA code: \n" + verificationCode);
+                string codeInput = Interaction.InputBox("Enter 2FA code: ", "Verification code", "");
+
+                if (string.IsNullOrEmpty(codeInput))
+                {
+                    error = "Please enter code";
+                    return false;
+                }
+                if (codeInput != verificationCode)
+                {
+                    error = "Incorrect code";
+                }
+
+                LoggedIn = user;
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                error = "Login error: " + e.Message;
                 return false;
             }
-            var user = FindUser(username);
-            if (user == null)
-            {
-                error = "User does not exist!";
-                return false;
-            }
-            if (user.Password != password)
-            {
-                error = "Wrong password!";
-                return false;
-            }
 
-            string verificationCode = random.Next(100000, 999999).ToString();
-            MessageBox.Show("Your 2FA code: \n" + verificationCode);
-            string codeInput = Interaction.InputBox("Enter 2FA code: ", "Verification code", "");
-
-            if (string.IsNullOrEmpty(codeInput))
-            {
-                error = "Please enter code";
-                return false;
-            }
-            if (codeInput != verificationCode)
-            {
-                error = "Incorrect code";
-            }
-
-            LoggedIn = user;
-
-            return true;
         }
         public bool Register(string username, string password,string confirmPassword, string country,string question, string questionAnswer, out string error)
         {
             error = string.Empty;
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(country) || string.IsNullOrWhiteSpace(question) || string.IsNullOrWhiteSpace(questionAnswer))
+            try
             {
-                error = "Please fill in username, password, country, answer and pick a question";
-                return false;
-            }
-
-            if (password != confirmPassword)
-            {
-                error = "Passwords do not match!";
-                return false;
-            }
-
-            if (FindUser(username) != null)
-            {
-                error = "User already exists!";
-                return false;
-            }
-
-            if (!ValidatePassword(password, out error))
-            {
-                return false;
-            }
-
-            Users.Add(new User
-            {
-                Username = username,
-                Password = password,
-                Country = country,
-                Question = question,
-                QuestionAnswer = questionAnswer
-            });
-            return true;
-        }
-        public User FindUser(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return null;
-            }
-            foreach (User user in Users)
-            {
-                if (user.Username == name)
+                if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(country) || string.IsNullOrWhiteSpace(question) || string.IsNullOrWhiteSpace(questionAnswer))
                 {
-                    return user;
+                    error = "Please fill in username, password, country, answer and pick a question";
+                    return false;
+                }
+
+                if (password != confirmPassword)
+                {
+                    error = "Passwords do not match!";
+                    return false;
+                }
+
+                if (FindUser(username) != null)
+                {
+                    error = "User already exists!";
+                    return false;
+                }
+
+                if (!ValidatePassword(password, out error))
+                {
+                    return false;
+                }
+
+                Users.Add(new User
+                {
+                    Username = username,
+                    Password = password,
+                    Country = country,
+                    Question = question,
+                    QuestionAnswer = questionAnswer
+                });
+                return true;
+            }
+            catch (Exception e)
+            {
+                error = "Registration error: " + e.Message;
+                return false;
+            }
+
+        }
+        public User? FindUser(string name)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    return null;
+                }
+                foreach (User user in Users)
+                {
+                    if (user.Username == name)
+                    {
+                        return user;
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error finding user: " + e.Message);
+            }
+
             return null;
         }
         public bool UpdateUserDetails(string username, string newPassword, string confirmPassword, string country, out string error)
         {
             error = string.Empty;
+            try
+            {
+                if (LoggedIn == null)
+                {
+                    error = "Cannot find logged in user!";
+                    return false;
+                }
+                if (string.IsNullOrWhiteSpace(username) || username.Length < 3)
+                {
+                    error = "Username must be more than 3 characters!";
+                    return false;
+                }
 
-            if(string.IsNullOrWhiteSpace(username)|| username.Length < 3)
+                if (string.IsNullOrWhiteSpace(newPassword) || string.IsNullOrWhiteSpace(confirmPassword))
+                {
+                    error = "Password cannot be empty!";
+                    return false;
+                }
+
+                if (newPassword != confirmPassword)
+                {
+                    error = "Passwords do not match!";
+                    return false;
+                }
+
+                if (!ValidatePassword(newPassword, out error))
+                {
+                    return false;
+                }
+
+                LoggedIn.Username = username;
+                LoggedIn.Password = newPassword;
+                LoggedIn.Country = country;
+                return true;
+            }
+            catch (Exception e)
             {
-                error = "Username must be more than 3 characters!";
+                error = "Error while updating user details: " + e.Message;
                 return false;
             }
 
-            if(string.IsNullOrWhiteSpace(newPassword)|| string.IsNullOrWhiteSpace(confirmPassword))
-            {
-                error = "Password cannot be empty!";
-                return false;
-            }
-
-            if (LoggedIn == null)
-            {
-                error = "Cannot find logged in user!";
-                return false;
-            }
-
-            if (newPassword != confirmPassword)
-            {
-                error = "Passwords do not match!";
-                return false;
-            }
-            
-            if (!ValidatePassword(newPassword, out error))
-            {
-                return false;
-            }
-            LoggedIn.Username = username;
-            LoggedIn.Password = newPassword;
-            LoggedIn.Country = country;
-            return true;
         }
         public bool ForgotPassword(string username, string questionAnswer, string newPassword, string confirmPassword, out string error)
         {
             error = string.Empty;
-            var user = FindUser(username);
-            if (user == null)
+            try
             {
-                error = "Cannot find user!";
+                var user = FindUser(username);
+                if (user == null)
+                {
+                    error = "Cannot find user!";
+                    return false;
+                }
+
+                if (!string.Equals(user.QuestionAnswer, questionAnswer, StringComparison.OrdinalIgnoreCase))
+                {
+                    error = "Incorrect answer!";
+                    return false;
+                }
+
+                if (string.IsNullOrWhiteSpace(newPassword) || string.IsNullOrWhiteSpace(confirmPassword))
+                {
+                    error = "Password cannot be empty!";
+                    return false;
+                }
+
+                if (newPassword != confirmPassword)
+                {
+                    error = "Passwords do not match!";
+                    return false;
+                }
+
+                if (!ValidatePassword(newPassword, out error))
+                {
+                    return false;
+                }
+                user.Password = newPassword;
+                return true;
+            }
+            catch (Exception e)
+            {
+                error = "Error: " + e.Message;
                 return false;
             }
 
-            if(!string.Equals(user.QuestionAnswer, questionAnswer, StringComparison.OrdinalIgnoreCase))
-            {
-                error = "Incorrect answer!";
-                return false;
-            }
-
-            if(string.IsNullOrWhiteSpace(newPassword) || string.IsNullOrWhiteSpace(confirmPassword))
-            {
-                error = "Password cannot be empty!";
-                return false;
-            }
-
-            if(newPassword != confirmPassword)
-            {
-                error = "Passwords do not match!";
-                return false;
-            }
-
-            if (!ValidatePassword(newPassword, out error))
-            {
-                return false;
-            }
-            user.Password = newPassword;
-            return true;
         }
         public bool ValidatePassword(string password, out string error)
         {
             error = string.Empty;
-            if (password.Length < 8)
+            try
             {
-                error = "Password must be at least 8 characters!";
-                return false;
-            }
-            if (!password.Any(char.IsDigit))
-            {
-                error = "Password must contain at least one digit!";
-                return false;
-            }
-            bool specialChar = false;
-            foreach (char c in password)
-            {
-                if (!char.IsLetterOrDigit(c))
+                if (password.Length < 8)
                 {
-                    specialChar = true;
-                    break;
+                    error = "Password must be at least 8 characters!";
+                    return false;
                 }
+
+                if (!password.Any(char.IsDigit))
+                {
+                    error = "Password must contain at least one digit!";
+                    return false;
+                }
+
+                bool specialChar = false;
+                foreach (char c in password)
+                {
+                    if (!char.IsLetterOrDigit(c))
+                    {
+                        specialChar = true;
+                        break;
+                    }
+                }
+
+                if (!specialChar)
+                {
+                    error = "Password must contain at least one special character!";
+                    return false;
+                }
+                return true;
             }
-            if (!specialChar)
+            catch (Exception e)
             {
-                error = "Password must contain at least one special character!";
+                error = "Password validation error: " + e.Message;
                 return false;
             }
-            return true;
+
         }
-        public string Question(string username)
+        public string? Question(string username)
         {
             var user = FindUser(username);
             if (user != null)
