@@ -78,7 +78,7 @@ namespace CookMaster.ViewModel
 
 
         public RelayCommand CancelCommand => new RelayCommand(execute => Cancel());
-        public RelayCommand SaveCommand => new RelayCommand(execute => Save());
+        public RelayCommand SaveCommand => new RelayCommand(execute => Save(), canExecute => !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(NewPassword) && !string.IsNullOrWhiteSpace(ConfirmPassword) && !string.IsNullOrWhiteSpace(SelectedCountry));
 
         public void Save()
         {
@@ -99,7 +99,7 @@ namespace CookMaster.ViewModel
                     {
                         if (window != recipeListWindow)
                         {
-                            window.Close(); //kolla på annan variant
+                            window.Close(); 
                         }
                     }
 
