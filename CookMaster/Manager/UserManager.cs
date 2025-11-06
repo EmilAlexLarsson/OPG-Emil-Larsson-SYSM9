@@ -106,6 +106,7 @@ namespace CookMaster.Manager
                 if (codeInput != verificationCode)
                 {
                     error = "Incorrect code";
+                    return false;
                 }
 
                 LoggedIn = user;
