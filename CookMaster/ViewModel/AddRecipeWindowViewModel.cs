@@ -73,15 +73,7 @@ namespace CookMaster.ViewModel
             {
                 if (RecipeManager.AddRecipe(Title, Ingredients, Instructions, Category, UserManager?.LoggedIn))
                 {
-                    //RecipeListWindow recipeListWindow = new RecipeListWindow();
-                    //recipeListWindow.Show();
-                    //foreach (Window window in Application.Current.Windows)
-                    //{
-                    //    if (window != recipeListWindow)
-                    //    {
-                    //        window.Close();
-                    //    }
-                    //}
+                    
                     foreach (Window window in Application.Current.Windows)
                     {
                         if (window is AddRecipeWindow)

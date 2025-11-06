@@ -17,7 +17,7 @@ namespace CookMaster.ViewModel
         public UserManager UserManager { get; }
         public RecipeManager RecipeManager { get; }
         public ObservableCollection<Recipe>? Recipes { get; }
-        //public ObservableCollection<Recipe>? VisibleRecipes { get; }
+        
 
         private Recipe? _selectedRecipe;
         public Recipe? SelectedRecipe
@@ -143,7 +143,11 @@ namespace CookMaster.ViewModel
                 {
                     SelectedRecipe.Date = DateTime.Now;
                     RecipeManager.Recipes?.Add(SelectedRecipe);
-                    
+                    if(!RecipeManager.ShowAllRecipes.Contains(SelectedRecipe))
+                    {
+                        RecipeManager.ShowAllRecipes.Add(SelectedRecipe);
+                    }
+
                     MessageBox.Show("Recipe copied and saved!");
                 }
                 else
@@ -155,15 +159,7 @@ namespace CookMaster.ViewModel
                     
                 }
                 Edit = false;
-                //RecipeListWindow recipeListWindow = new RecipeListWindow();
-                //recipeListWindow.Show();
-                //foreach (Window window in Application.Current.Windows)
-                //{
-                //    if (window != recipeListWindow)
-                //    {
-                //        window.Close();
-                //    }
-                //}
+                
                 foreach (Window window in Application.Current.Windows)
                 {
                     if (window is RecipeDetailWindow)

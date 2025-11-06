@@ -28,8 +28,7 @@ namespace CookMaster.ViewModel
             UserManager = userManager;
             RecipeManager = recipeManager;
 
-            //AllRecipes = new ObservableCollection<Recipe>(RecipeManager?.Recipes);
-            //VisibleRecipes = new ObservableCollection<Recipe>(AllRecipes);
+            
             AllRecipes = RecipeManager?.Recipes ?? new ObservableCollection<Recipe>();
             VisibleRecipes = AllRecipes;
 
@@ -141,6 +140,11 @@ namespace CookMaster.ViewModel
 
             VisibleRecipes = RecipeManager.FilterRecipes(Search, AllRecipes);
             OnPropertyChanged(nameof(VisibleRecipes));
+            if(string.IsNullOrWhiteSpace(Search))
+            {
+                VisibleRecipes = AllRecipes;
+                OnPropertyChanged(nameof(VisibleRecipes));
+            }
 
         }
         public void ResetFilter()
