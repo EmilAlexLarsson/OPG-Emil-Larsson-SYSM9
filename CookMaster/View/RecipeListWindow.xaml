@@ -28,7 +28,7 @@
         <StackPanel Grid.Row="0" Grid.Column="1">
             
             <!--<TextBlock Text="{Binding Source={StaticResource UserManager}, Path=LoggedIn.Username}"/>-->
-            <TextBlock HorizontalAlignment="Center" Margin="5" Text="{Binding UserManager.LoggedIn.Username}"/>
+            <TextBlock HorizontalAlignment="Center" Margin="5" Text="{Binding LoggedInUsername}"/>
             <Button Content="User" Command="{Binding OpenUserCommand}" Margin="5" Width="100"/>
             <Button Content="Log out" Command="{Binding SignOutCommand}" Margin="5" Width="100"/>
         </StackPanel>

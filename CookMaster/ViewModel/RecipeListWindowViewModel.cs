@@ -37,6 +37,10 @@ namespace CookMaster.ViewModel
         {
             get { return RecipeManager?.Recipes; }
         }
+        public string LoggedInUsername
+        {
+            get { return UserManager.LoggedIn?.Username ?? string.Empty; }
+        }
         private Recipe? _selectedRecipe;
         public Recipe? SelectedRecipe
         {
@@ -84,6 +88,7 @@ namespace CookMaster.ViewModel
         {
             UserDetailsWindow userDetailsWindow = new UserDetailsWindow();
             userDetailsWindow.ShowDialog();
+            OnPropertyChanged(nameof(LoggedInUsername));
         }
 
         public void Details ()

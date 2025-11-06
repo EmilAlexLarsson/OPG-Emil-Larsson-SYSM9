@@ -202,6 +202,14 @@ namespace CookMaster.Manager
                     error = "Username must be more than 3 characters!";
                     return false;
                 }
+                foreach (User user in Users)
+                {
+                    if (user.Username == username && user != LoggedIn)
+                    {
+                        error = "Username already exists!";
+                        return false;
+                    }
+                }
 
                 if (string.IsNullOrWhiteSpace(newPassword) || string.IsNullOrWhiteSpace(confirmPassword))
                 {
