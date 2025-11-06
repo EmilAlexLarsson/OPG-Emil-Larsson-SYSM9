@@ -19,8 +19,8 @@ namespace CookMaster.ViewModel
         public UserManager UserManager { get; }
         public ObservableCollection<Recipe> AllRecipes { get; set; }
         public ObservableCollection<Recipe> VisibleRecipes { get; set; }
-        
-        
+
+
 
 
         public RecipeListWindowViewModel(UserManager userManager, RecipeManager recipeManager)
@@ -71,7 +71,7 @@ namespace CookMaster.ViewModel
         public RelayCommand ResetFilterCommand => new RelayCommand(execute => ResetFilter());
 
 
-       
+
         public void AddRecipe()
         {
 
@@ -127,16 +127,16 @@ namespace CookMaster.ViewModel
         {
             MessageBox.Show("CookMaster is a platform for your recipes");
         }
-        
+
         public void SortByNewest()
         {
-            
+
             VisibleRecipes = RecipeManager.SortByNewest(VisibleRecipes);
             OnPropertyChanged(nameof(VisibleRecipes));
         }
         public void FilterList()
         {
-            
+
             VisibleRecipes = RecipeManager.FilterRecipes(Search, AllRecipes);
             OnPropertyChanged(nameof(VisibleRecipes));
 
@@ -145,7 +145,7 @@ namespace CookMaster.ViewModel
         {
             Search = string.Empty;
             FilterList();
-            
+
         }
 
         public void SignOut()

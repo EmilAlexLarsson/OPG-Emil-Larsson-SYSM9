@@ -241,7 +241,7 @@ namespace CookMaster.Manager
                 MessageBox.Show("Error: " + e.Message);
             }
         }
-        public ObservableCollection<Recipe> SortByNewest(ObservableCollection<Recipe> visibileRecipes) 
+        public ObservableCollection<Recipe> SortByNewest(ObservableCollection<Recipe> visibileRecipes)
         {
             try
             {
@@ -259,7 +259,7 @@ namespace CookMaster.Manager
                 return visibileRecipes ?? new ObservableCollection<Recipe>();
             }
         }
-        public ObservableCollection<Recipe> FilterRecipes (string category, ObservableCollection<Recipe> allRecipes)
+        public ObservableCollection<Recipe> FilterRecipes(string category, ObservableCollection<Recipe> allRecipes)
         {
             try
             {
@@ -287,7 +287,7 @@ namespace CookMaster.Manager
                 return new ObservableCollection<Recipe>();
             }
         }
-        
+
 
     }
 }

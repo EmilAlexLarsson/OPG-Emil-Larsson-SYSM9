@@ -17,7 +17,7 @@ namespace CookMaster.ViewModel
         public UserManager UserManager { get; }
         public RecipeManager RecipeManager { get; }
         public ObservableCollection<Recipe>? Recipes { get; }
-        public ObservableCollection<Recipe>? VisibleRecipes { get; }
+        //public ObservableCollection<Recipe>? VisibleRecipes { get; }
 
         private Recipe? _selectedRecipe;
         public Recipe? SelectedRecipe
@@ -148,16 +148,13 @@ namespace CookMaster.ViewModel
                 }
                 else
                 {
-                    SelectedRecipe.Title = Title;
-                    SelectedRecipe.Ingredients = Ingredients;
-                    SelectedRecipe.Instructions = Instructions;
-                    SelectedRecipe.Category = Category;
+                    
                     SelectedRecipe.Date = DateTime.Now;
 
                     MessageBox.Show("Recipe saved!");
                     
                 }
-                SelectedRecipe.Date = DateTime.Now;
+                Edit = false;
                 RecipeListWindow recipeListWindow = new RecipeListWindow();
                 recipeListWindow.Show();
                 foreach (Window window in Application.Current.Windows)
