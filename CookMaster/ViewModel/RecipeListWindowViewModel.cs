@@ -29,7 +29,7 @@ namespace CookMaster.ViewModel
             RecipeManager = recipeManager;
 
             
-            AllRecipes = RecipeManager?.Recipes ?? new ObservableCollection<Recipe>();
+            AllRecipes = RecipeManager?.Recipes ?? new ObservableCollection<Recipe>(); // recipes är null, skapa en tom lista
             VisibleRecipes = AllRecipes;
 
         }

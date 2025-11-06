@@ -251,7 +251,7 @@ namespace CookMaster.Manager
                     return visibileRecipes ?? new ObservableCollection<Recipe>();
                 }
                 List<Recipe> sortedList = new List<Recipe>(visibileRecipes);
-                sortedList.Sort((recipe1, recipe2) => recipe2.Date.CompareTo(recipe1.Date)); //om 2 är nyare, lägg de före 1
+                sortedList.Sort((recipe1, recipe2) => recipe2.Date.CompareTo(recipe1.Date)); //om 2 är nyare, lägg de före 1, dvs om 2 är större än 1, returnera positivt värde
                 return new ObservableCollection<Recipe>(sortedList);
             }
             catch (Exception e)
