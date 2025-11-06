@@ -126,7 +126,7 @@ namespace CookMaster.ViewModel
         }
         public void Info()
         {
-            MessageBox.Show("CookMaster is a platform for your recipes");
+            MessageBox.Show("CookMaster is a platform for your recipes \n" + "Add your own recipes\n"+ "Edit your recipes\n"+ "You can also filter your recipes by category and sort by date.");
         }
 
         public void SortByNewest()
