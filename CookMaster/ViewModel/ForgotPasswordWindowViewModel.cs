@@ -83,13 +83,21 @@ namespace CookMaster.ViewModel
                 if (UserManager.ForgotPassword(Username, QuestionAnswer, NewPassword, ConfirmPassword, out string error))
                 {
                     MessageBox.Show("Password has been updated!");
-                    MainWindow mainWindow = new MainWindow();
-                    mainWindow.Show();
+                    //MainWindow mainWindow = new MainWindow();
+                    //mainWindow.Show();
+                    //foreach (Window window in Application.Current.Windows)
+                    //{
+                    //    if (window != mainWindow)
+                    //    {
+                    //        window.Close();
+                    //    }
+                    //}
                     foreach (Window window in Application.Current.Windows)
                     {
-                        if (window != mainWindow)
+                        if (window is ForgotPasswordWindow)
                         {
                             window.Close();
+                            break;
                         }
                     }
                     return true;

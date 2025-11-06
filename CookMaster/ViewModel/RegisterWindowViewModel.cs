@@ -100,11 +100,18 @@ namespace CookMaster.ViewModel
                 if (UserManager.Register(Username, Password, ConfirmPassword, SelectedCountry, SelectedQuestion, QuestionAnswer, out string error))
                 {
                     MessageBox.Show("New user created!");
-                    MainWindow mainWindow = new MainWindow();
-                    mainWindow.Show();
+                    //MainWindow mainWindow = new MainWindow();
+                    //mainWindow.Show();
+                    //foreach (Window window in Application.Current.Windows)
+                    //{
+                    //    if (window != mainWindow)
+                    //    {
+                    //        window.Close();
+                    //    }
+                    //}
                     foreach (Window window in Application.Current.Windows)
                     {
-                        if (window != mainWindow)
+                        if (window is RegisterWindow)
                         {
                             window.Close();
                         }

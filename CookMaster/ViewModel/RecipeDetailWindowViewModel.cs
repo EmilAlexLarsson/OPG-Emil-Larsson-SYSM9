@@ -155,13 +155,21 @@ namespace CookMaster.ViewModel
                     
                 }
                 Edit = false;
-                RecipeListWindow recipeListWindow = new RecipeListWindow();
-                recipeListWindow.Show();
+                //RecipeListWindow recipeListWindow = new RecipeListWindow();
+                //recipeListWindow.Show();
+                //foreach (Window window in Application.Current.Windows)
+                //{
+                //    if (window != recipeListWindow)
+                //    {
+                //        window.Close();
+                //    }
+                //}
                 foreach (Window window in Application.Current.Windows)
                 {
-                    if (window != recipeListWindow)
+                    if (window is RecipeDetailWindow)
                     {
                         window.Close();
+                        break;
                     }
                 }
             }

@@ -16,7 +16,7 @@ namespace CookMaster.ViewModel
         public UserManager UserManager { get; }
         public MainWindowViewModel(UserManager userManager)
         {
-            UserManager = (UserManager)Application.Current.Resources["UserManager"];
+            UserManager = userManager;
 
 
         }

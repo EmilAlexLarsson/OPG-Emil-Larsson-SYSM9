@@ -92,14 +92,15 @@ namespace CookMaster.ViewModel
                 if (UserManager.UpdateUserDetails(Username, NewPassword, ConfirmPassword, SelectedCountry, out string error))
                 {
                     MessageBox.Show("User details updated!");
-                    RecipeListWindow recipeListWindow = new RecipeListWindow();
-                    recipeListWindow.Show();
+                    //RecipeListWindow recipeListWindow = new RecipeListWindow();
+                    //recipeListWindow.Show();
 
                     foreach (Window window in Application.Current.Windows)
                     {
-                        if (window != recipeListWindow)
+                        if (window is UserDetailsWindow)
                         {
-                            window.Close(); 
+                            window.Close();
+                            break;
                         }
                     }
 
@@ -119,14 +120,15 @@ namespace CookMaster.ViewModel
         }
         public void Cancel()
         {
-            RecipeListWindow recipeListWindow = new RecipeListWindow();
-            recipeListWindow.Show();
-            
+            //RecipeListWindow recipeListWindow = new RecipeListWindow();
+            //recipeListWindow.Show();
+
             foreach (Window window in Application.Current.Windows)
             {
-                if (window != recipeListWindow)
+                if (window is UserDetailsWindow)
                 {
                     window.Close();
+                    break;
                 }
             }
         }

@@ -28,8 +28,10 @@ namespace CookMaster.ViewModel
             UserManager = userManager;
             RecipeManager = recipeManager;
 
-            AllRecipes = new ObservableCollection<Recipe>(RecipeManager.Recipes);
-            VisibleRecipes = new ObservableCollection<Recipe>(AllRecipes);
+            //AllRecipes = new ObservableCollection<Recipe>(RecipeManager?.Recipes);
+            //VisibleRecipes = new ObservableCollection<Recipe>(AllRecipes);
+            AllRecipes = RecipeManager?.Recipes ?? new ObservableCollection<Recipe>();
+            VisibleRecipes = AllRecipes;
 
         }
         public ObservableCollection<Recipe> Recipes

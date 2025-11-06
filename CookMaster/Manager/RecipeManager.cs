@@ -142,6 +142,7 @@ namespace CookMaster.Manager
                             return false;
                         }
                     }
+                    
                     UserManager.LoggedIn.Recipes.Add(newRecipe);
 
                 }
@@ -161,7 +162,7 @@ namespace CookMaster.Manager
                     }
                 }
                 ShowAllRecipes.Add(newRecipe);
-                ShowAllUserRecipe();
+                //ShowAllUserRecipe();
                 return true;
             }
             catch (Exception e)
