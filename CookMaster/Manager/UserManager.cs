@@ -295,12 +295,17 @@ namespace CookMaster.Manager
                     error = "Password must be at least 8 characters!";
                     return false;
                 }
-
+                if (!password.Any(char.IsLetter))
+                {
+                    error = "Password must contain at least one letter!";
+                    return false;
+                }
                 if (!password.Any(char.IsDigit))
                 {
                     error = "Password must contain at least one digit!";
                     return false;
                 }
+                
 
                 bool specialChar = false;
                 foreach (char c in password)
