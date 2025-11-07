@@ -87,8 +87,13 @@ namespace CookMaster.ViewModel
         public void OpenUser()
         {
             UserDetailsWindow userDetailsWindow = new UserDetailsWindow();
-            userDetailsWindow.ShowDialog();
-            OnPropertyChanged(nameof(LoggedInUsername));
+            bool? result = userDetailsWindow.ShowDialog();
+            //userDetailsWindow.ShowDialog();
+            if (result == true)
+            {
+                OnPropertyChanged(nameof(LoggedInUsername));
+            }
+            
         }
 
         public void Details ()

@@ -295,7 +295,7 @@ namespace CookMaster.Manager
                     error = "Password must be at least 8 characters!";
                     return false;
                 }
-                if (!password.Any(char.IsLetter))
+                if (!password.Any(char.IsLetter)) //går igenom stängen och kollar om någon är letter
                 {
                     error = "Password must contain at least one letter!";
                     return false;

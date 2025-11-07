@@ -22,18 +22,22 @@ namespace CookMaster.ViewModel
             UserManager = userManager;
             RecipeManager = recipeManager;
             Countries = UserManager.Countries;
+            _username = UserManager.LoggedIn?.Username ?? string.Empty; // Om värdet är null, sätt till tom sträng
+            _selectedCountry = UserManager.LoggedIn?.Country ?? string.Empty; 
         }
 
+        
+        private string _username;
         public string Username
         {
-            get { return UserManager.LoggedIn?.Username ?? string.Empty; }
+            get
+            {
+                return _username;
+            }
             set
             {
-                if (UserManager.LoggedIn?.Username != value && UserManager.LoggedIn != null)
-                {
-                    UserManager.LoggedIn.Username = value;
-                    OnPropertyChanged();
-                }
+                _username = value;
+                OnPropertyChanged();
             }
         }
         private string _newPassword;
@@ -65,16 +69,17 @@ namespace CookMaster.ViewModel
         private string _selectedCountry;
         public string SelectedCountry
         {
-            get { return UserManager.LoggedIn?.Country ?? string.Empty; }
+            get
+            {
+                return _selectedCountry;
+            }
             set
             {
-                if (UserManager.LoggedIn?.Country != value && UserManager.LoggedIn != null)
-                {
-                    UserManager.LoggedIn.Country = value;
-                    OnPropertyChanged();
-                }
+                _selectedCountry = value;
+                OnPropertyChanged();
             }
         }
+        
 
 
         public RelayCommand CancelCommand => new RelayCommand(execute => Cancel());
@@ -96,8 +101,9 @@ namespace CookMaster.ViewModel
 
                     foreach (Window window in Application.Current.Windows)
                     {
-                        if (window is UserDetailsWindow)
+                        if (window is UserDetailsWindow userDetailsWindow)
                         {
+                            userDetailsWindow.DialogResult = true;
                             window.Close();
                             break;
                         }
